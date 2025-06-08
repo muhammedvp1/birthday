@@ -77,6 +77,36 @@
             margin: 0 auto;
         }
 
+        .memory-page.cover {
+            background: rgba(255, 240, 250, 0.98);
+            border: 3px solid rgba(255, 105, 180, 0.4);
+            box-shadow: 0 12px 40px rgba(214, 51, 132, 0.3);
+        }
+
+        .cover .memory-media {
+            background: linear-gradient(135deg, #ff69b4, #ffd1e3, #ffb6d9);
+            animation: coverPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes coverPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .cover .memory-caption {
+            font-size: 20px;
+            color: #d63384;
+            text-shadow: 2px 2px 4px rgba(214, 51, 132, 0.2);
+            margin-bottom: 10px;
+        }
+
+        .cover .memory-message {
+            font-size: 14px;
+            color: #d63384;
+            opacity: 0.9;
+            font-weight: 500;
+        }
+
         @keyframes pageIn {
             from { 
                 opacity: 0; 
@@ -317,12 +347,12 @@
     <div class="page-indicator" id="pageIndicator"></div>
     
     <div class="memory-book">
-        <div class="memory-page" id="memoryPage">
+        <div class="memory-page cover" id="memoryPage">
             <div class="memory-media" id="memoryMedia">
-                📱
+                📖
             </div>
-            <div class="memory-caption" id="memoryCaption">Our first call 💬</div>
-            <div class="memory-message" id="memoryMessage">I remember how nervous I was, but your voice made everything perfect ✨</div>
+            <div class="memory-caption" id="memoryCaption">Our Memory Book ✨</div>
+            <div class="memory-message" id="memoryMessage">A collection of beautiful moments we've shared together 💕 Happy Birthday, Afeee! 🎂</div>
         </div>
     </div>
     
@@ -338,6 +368,12 @@
     <script>
         // Memory data - you can easily customize this
         const memories = [
+            {
+                media: "📖",
+                caption: "Our Memory Book ✨",
+                message: "A collection of beautiful moments we've shared together 💕 Happy Birthday, Afeee! 🎂",
+                isCover: true
+            },
             {
                 media: "📱",
                 caption: "Our first call 💬",
@@ -401,6 +437,14 @@
         // Update page content
         function updatePage() {
             const pageData = memories[currentPage];
+            const page = document.getElementById('memoryPage');
+            
+            // Add or remove cover class
+            if (pageData.isCover) {
+                page.classList.add('cover');
+            } else {
+                page.classList.remove('cover');
+            }
             
             document.getElementById('memoryMedia').textContent = pageData.media;
             document.getElementById('memoryCaption').textContent = pageData.caption;
@@ -417,7 +461,6 @@
             });
             
             // Add page animation
-            const page = document.getElementById('memoryPage');
             page.style.animation = 'none';
             setTimeout(() => {
                 page.style.animation = 'pageIn 0.6s ease-out';
