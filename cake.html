@@ -1,12 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cake Animation</title>
-    <!-- Stylesheet -->
+    <meta charset="UTF-8" />
     <link rel="stylesheet" href="cake.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Afeee's Birthday Cake</title>
   </head>
   <body>
+    <div class="floating-container" id="floatingStuff"></div>
+    
+    <div class="tap-message" id="tapMessage">
+      <h2>💫 Tap the candle! 💫</h2>
+    </div>
+    
+    <div class="birthday-message" id="birthdayMessage">
+      <h1>Happy Birthday Afeee! 🎉</h1>
+      <p>Your wish will come true! ✨</p>
+    </div>
+    
     <div class="container">
       <div class="cake">
         <div class="candle"></div>
@@ -15,5 +26,75 @@
         <div class="bottom-layer"></div>
       </div>
     </div>
+
+    <script>
+      // Floating emojis - same as first page
+      const container = document.getElementById("floatingStuff");
+      const symbols = ['💖','✨','🌸','💝','💕','🎀','🎂','🎉','🎈'];
+      
+      for(let i = 0; i < 35; i++) {
+        const el = document.createElement("div");
+        el.className = "float-item";
+        el.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+        el.style.left = `${Math.random() * 100}%`;
+        el.style.animationDuration = `${4 + Math.random() * 4}s`;
+        el.style.fontSize = `${16 + Math.random() * 20}px`;
+        el.style.animationDelay = `${Math.random() * 5}s`;
+        container.appendChild(el);
+      }
+
+      // Candle blow functionality
+      let candleBlown = false;
+      const tapMessage = document.getElementById('tapMessage');
+      const birthdayMessage = document.getElementById('birthdayMessage');
+      
+      document.querySelector('.candle').addEventListener('click', function() {
+        if (!candleBlown) {
+          candleBlown = true;
+          this.classList.add('blown');
+          
+          // Hide tap message immediately and smoothly
+          tapMessage.classList.add('hidden');
+          
+          // Show birthday message after tap message fades
+          setTimeout(() => {
+            birthdayMessage.classList.add('show');
+          }, 600);
+          
+          // Create confetti after flame goes out
+          setTimeout(() => {
+            createConfetti();
+          }, 300);
+        }
+      });
+
+      function createConfetti() {
+        const confettiContainer = document.createElement('div');
+        confettiContainer.className = 'confetti-container';
+        document.body.appendChild(confettiContainer);
+
+        // Create 150 larger confetti pieces
+        for (let i = 0; i < 150; i++) {
+          const confetti = document.createElement('div');
+          confetti.className = 'confetti-piece';
+          confetti.style.left = Math.random() * 100 + 'vw';
+          confetti.style.animationDelay = (Math.random() * 2) + 's';
+          confetti.style.animationDuration = (3 + Math.random() * 2) + 's';
+          
+          // Add some horizontal movement
+          const randomX = (Math.random() - 0.5) * 200;
+          confetti.style.setProperty('--random-x', randomX + 'px');
+          
+          confettiContainer.appendChild(confetti);
+        }
+
+        // Remove confetti after animation
+        setTimeout(() => {
+          if (document.body.contains(confettiContainer)) {
+            document.body.removeChild(confettiContainer);
+          }
+        }, 8000);
+      }
+    </script>
   </body>
 </html>
