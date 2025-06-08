@@ -17,6 +17,10 @@
       <h1>Happy Birthday Afeee! 🎉</h1>
       <p>Your wish will come true! ✨</p>
     </div>
+
+    <button id="memoriesBtn" onclick="goToMemories()" style="display: none;">
+  🎞 Take a walk down memory lane
+</button>
     
     <div class="container">
       <div class="cake">
@@ -58,8 +62,10 @@
           
           // Show birthday message after tap message fades
           setTimeout(() => {
-            birthdayMessage.classList.add('show');
-          }, 600);
+  birthdayMessage.classList.add('show');
+  document.getElementById('memoriesBtn').style.display = 'block';
+}, 600);
+
           
           // Create confetti after flame goes out
           setTimeout(() => {
@@ -95,6 +101,9 @@
           }
         }, 8000);
       }
+       function goToMemories() {
+  window.location.href = 'memory-transition.html';
+}
     </script>
   </body>
 </html>
