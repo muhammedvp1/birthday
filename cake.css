@@ -1,32 +1,50 @@
-*,
-*::before,
-*::after {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
+/* ======================== RESET + BASE ======================== */
+*, *::before, *::after { padding: 0; margin: 0; box-sizing: border-box; }
 body {
-  background-color: #eac285;
+  background: linear-gradient(135deg, #ffe6f0, #ffd1e3);
+  font-family: 'Comic Sans MS', cursive;
+  overflow: hidden;
+  position: relative;
+  height: 100vh;
 }
+
+/* ======================== FLOATING EMOJIS ======================== */
+.floating-container {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+.float-item {
+  position: absolute;
+  top: 100vh;
+  animation: floatUp linear infinite;
+  opacity: 0.7;
+  user-select: none;
+}
+@keyframes floatUp {
+  0% { transform: translateY(0) scale(1); opacity: 0; }
+  30% { opacity: 1; }
+  100% { transform: translateY(-120vh) scale(1.2); opacity: 0; }
+}
+
+/* ======================== CAKE ======================== */
 .container {
   width: 400px;
   height: 400px;
-  background-color: #ffffff;
   position: absolute;
   transform: translate(-50%, -50%);
-  top: 50%;
-  left: 50%;
-  border-radius: 8px;
-  box-shadow: 0 20px 45px rgba(120, 76, 10, 0.25);
+  top: 50%; left: 50%;
+  z-index: 2;
 }
 .cake {
   width: 100%;
   position: absolute;
   bottom: 60px;
 }
-.bottom-layer,
-.top-layer,
-.middle-layer {
+.bottom-layer, .top-layer, .middle-layer {
   height: 80px;
   width: 240px;
   position: relative;
@@ -34,70 +52,172 @@ body {
   background-repeat: repeat;
   background-size: 100% 100%, 60px 100px;
   background-position: 28px 0;
-  background-image: linear-gradient(
-      transparent 50px,
-      #e3a953 50px,
-      #e3a953 60px,
-      transparent 60px
-    ),
-    radial-gradient(circle at 30px 5px, #713e16 30px, #eac284 31px);
+  background-image:
+    linear-gradient(transparent 50px, #ffb6d9 50px, #ffb6d9 60px, transparent 60px),
+    radial-gradient(circle at 30px 5px, #d63384 30px, #ffafcc 31px);
 }
 .middle-layer {
   transform: scale(0.85);
   top: 72px;
   animation: rise-1 2s forwards;
 }
-@keyframes rise-1 {
-  100% {
-    top: 7px;
-  }
-}
+@keyframes rise-1 { 100% { top: 7px; } }
 .top-layer {
   transform: scale(0.7);
   top: 144px;
   animation: rise-2 2s 2s forwards;
 }
-@keyframes rise-2 {
-  100% {
-    top: 26px;
-  }
-}
+@keyframes rise-2 { 100% { top: 26px; } }
+
+/* ======================== CANDLE + FLAME ======================== */
 .candle {
-  background: repeating-linear-gradient(
-    45deg,
-    #fd3018 0,
-    #fd3018 5px,
-    #ffa89e 5px,
-    #ffa89e 10px
-  );
-  height: 45px;
-  width: 15px;
+  background: repeating-linear-gradient(45deg, #ff69b4 0, #ff69b4 5px, #ffc0cb 5px, #ffc0cb 10px);
+  height: 45px; width: 15px;
   position: absolute;
   margin: auto;
-  left: 0;
-  right: 0;
+  left: 0; right: 0;
   bottom: 0;
   animation: rise-3 1s 4s forwards;
-}
-@keyframes rise-3 {
-  100% {
-    bottom: 202px;
-  }
+  cursor: pointer;
+  z-index: 10;
 }
 .candle:after {
   content: "";
   position: absolute;
-  height: 16px;
-  width: 16px;
-  background-color: #ffee54;
+  height: 16px; width: 16px;
+  background-color: #ffe066;
   border-radius: 0 50% 50% 50%;
   transform: scale(0) rotate(45deg);
   bottom: 50px;
   left: -0.5px;
   animation: flame 1.5s 5s forwards;
+  transition: all 0.3s ease;
 }
-@keyframes flame {
-  100% {
-    transform: scale(1) rotate(45deg);
+.candle.blown:after {
+  transform: scale(0) rotate(45deg);
+  opacity: 0;
+}
+@keyframes rise-3 { 100% { bottom: 202px; } }
+@keyframes flame { 100% { transform: scale(1) rotate(45deg); } }
+
+/* ======================== CONFETTI ======================== */
+.confetti-container {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  pointer-events: none;
+  z-index: 1000;
+  overflow: hidden;
+}
+.confetti-piece {
+  position: absolute;
+  background-color: #ff69b4;
+  animation: confetti-fall 4s ease-out forwards;
+  transform-origin: center;
+}
+.confetti-piece:nth-child(odd) {
+  background-color: #ffe066;
+  border-radius: 50%;
+  width: 20px; height: 20px;
+}
+.confetti-piece:nth-child(3n) {
+  background-color: #d63384;
+  width: 16px; height: 16px;
+  border-radius: 3px;
+}
+.confetti-piece:nth-child(4n) {
+  background-color: #ffafcc;
+  width: 24px; height: 24px;
+  border-radius: 50%;
+}
+.confetti-piece:nth-child(5n) {
+  background-color: #ffd1e3;
+  width: 18px; height: 18px;
+  border-radius: 3px;
+}
+.confetti-piece:nth-child(6n) {
+  background-color: #ff69b4;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+}
+.confetti-piece:nth-child(7n) {
+  background-color: #ffe066;
+  width: 14px; height: 14px;
+  transform: rotate(45deg);
+}
+@keyframes confetti-fall {
+  0% { transform: translateY(-100vh) rotate(0deg) scale(0); opacity: 1; }
+  10% { transform: translateY(-80vh) rotate(90deg) scale(1); opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg) scale(1.2); opacity: 0; }
+}
+
+/* ======================== MESSAGES ======================== */
+.tap-message {
+  position: fixed;
+  top: 60px;
+  left: 63%;
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: 100;
+  animation: fadeIn 2s 6s forwards;
+  opacity: 0;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.tap-message.hidden {
+  opacity: 0 !important;
+  transform: translateX(-50%) translateY(-20px);
+  pointer-events: none;
+}
+.birthday-message {
+  position: fixed;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  text-align: center;
+  z-index: 100;
+  opacity: 0;
+  transition: all 0.8s ease;
+}
+.birthday-message.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+.tap-message h2 {
+  font-size: 2rem;
+  color: #d63384;
+  margin-bottom: 10px;
+  text-shadow: 2px 2px 4px rgba(214, 51, 132, 0.3);
+  animation: pulse 2s infinite;
+}
+.birthday-message h1 {
+  font-size: 2.5rem;
+  color: #d63384;
+  margin-bottom: 10px;
+  text-shadow: 2px 2px 4px rgba(214, 51, 132, 0.3);
+}
+.birthday-message p {
+  font-size: 1.2rem;
+  color: #d63384;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+@keyframes pulse {
+  0%, 100% { transform: translateX(-50%) scale(1); }
+  50% { transform: translateX(-50%) scale(1.05); }
+}
+
+/* ======================== RESPONSIVE ======================== */
+@media screen and (max-width: 480px) {
+  .container {
+    width: 90vw;
+    height: 90vw;
+    max-width: 350px;
+    max-height: 350px;
   }
+  .tap-message h2 { font-size: 1.8rem; }
+  .birthday-message h1 { font-size: 2rem; }
+  .birthday-message p { font-size: 1rem; }
 }
