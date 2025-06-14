@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mood Cards - Afeee's Birthday</title>
+    <style>
+        /* ======================== RESET + BASE ======================== */
+        *, *::before, *::after { 
+            padding: 0; 
+            margin: 0; 
+            box-sizing: border-box; 
+        }
+        
+        body {
+            background: linear-gradient(135deg, #ffe6f0, #ffd1e3);
+            font-family: 'Comic Sans MS', cursive;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+            padding: 20px 10px;
+        }
+
+        /* ======================== FLOATING EMOJIS ======================== */
+        .floating-container {
+            position: fixed;
+            top: 0; 
+            left: 0;
+            width: 100%; 
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+        
+        .float-item {
+            position: absolute;
+            top: 100vh;
+            animation: floatUp linear infinite;
+            opacity: 0.7;
+            user-select: none;
+        }
+        
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(1); opacity: 0; }
+            30% { opacity: 1; }
+            100% { transform: translateY(-120vh) scale(1.2); opacity: 0; }
+        }
+
+        /* ======================== MAIN CONTENT ======================== */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+            padding: 40px 0 60px 0;
+        }
+
+        .page-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #d63384;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(214, 51, 132, 0.2);
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+
+        .page-subtitle {
+            text-align: center;
+            font-size: 1.1rem;
+            color: #d63384;
+            opacity: 0.8;
+            margin-bottom: 40px;
+            animation: fadeIn 1s ease-out 0.5s backwards;
+        }
+
+        @keyframes titleGlow {
+            0% { text-shadow: 2px 2px 4px rgba(214, 51, 132, 0.2); }
+            100% { text-shadow: 2px 2px 8px rgba(214, 51, 132, 0.4); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 0.8; transform: translateY(0); }
+        }
+
+        /* ======================== MOOD CARDS GRID ======================== */
+        .mood-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 20px;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 0 10px;
+        }
+
+        .mood-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 25px 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(214, 51, 132, 0.15);
+            border: 2px solid rgba(255, 182, 217, 0.3);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            animation: cardFloat 2s ease-in-out infinite alternate;
+        }
+
+        .mood-card:nth-child(1) { animation-delay: 0s; }
+        .mood-card:nth-child(2) { animation-delay: 0.2s; }
+        .mood-card:nth-child(3) { animation-delay: 0.4s; }
+        .mood-card:nth-child(4) { animation-delay: 0.6s; }
+        .mood-card:nth-child(5) { animation-delay: 0.8s; }
+
+        @keyframes cardFloat {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-5px); }
+        }
+
+        .mood-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 105, 180, 0.1), transparent);
+            transform: rotate(45deg) translateX(-100%);
+            transition: transform 0.8s ease;
+            pointer-events: none;
+        }
+
+        .mood-card:hover::before {
+            transform: rotate(45deg) translateX(100%);
+        }
+
+        .mood-card:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(214, 51, 132, 0.25);
+            border-color: rgba(255, 105, 180, 0.5);
+        }
+
+        .mood-card:active {
+            transform: translateY(-5px) scale(1.02);
+        }
+
+        .mood-emoji {
+            font-size: 3rem;
+            margin-bottom: 12px;
+            display: block;
+            animation: emojiPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes emojiPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .mood-label {
+            font-size: 1.1rem;
+            color: #d63384;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(214, 51, 132, 0.1);
+        }
+
+        /* ======================== MODAL ======================== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 25px;
+            padding: 30px;
+            max-width: 90%;
+            width: 400px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(214, 51, 132, 0.3);
+            border: 3px solid rgba(255, 182, 217, 0.5);
+            position: relative;
+            transform: scale(0.8) translateY(30px);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(15px);
+        }
+
+        .modal-overlay.show .modal {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal-emoji {
+            font-size: 4rem;
+            margin-bottom: 15px;
+            animation: modalEmojiSpin 3s ease-in-out infinite;
+        }
+
+        @keyframes modalEmojiSpin {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(-5deg) scale(1.1); }
+            75% { transform: rotate(5deg) scale(1.1); }
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            color: #d63384;
+            margin-bottom: 20px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(214, 51, 132, 0.1);
+        }
+
+        .modal-message {
+            font-size: 1rem;
+            color: #d63384;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            opacity: 0.9;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #d63384;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .close-btn:hover {
+            background: rgba(255, 105, 180, 0.1);
+            transform: scale(1.1);
+        }
+
+        /* ======================== SPARKLE EFFECTS ======================== */
+        .sparkle {
+            position: absolute;
+            pointer-events: none;
+            font-size: 12px;
+            color: #ff69b4;
+            animation: sparkleFloat 2s ease-in-out infinite;
+            z-index: 1001;
+        }
+
+        @keyframes sparkleFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
+        }
+
+        /* ======================== RESPONSIVE ======================== */
+        @media screen and (max-width: 480px) {
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .page-subtitle {
+                font-size: 1rem;
+            }
+            
+            .mood-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+                max-width: 100%;
+            }
+            
+            .mood-card {
+                padding: 20px 10px;
+            }
+            
+            .mood-emoji {
+                font-size: 2.5rem;
+            }
+            
+            .mood-label {
+                font-size: 1rem;
+            }
+            
+            .modal {
+                padding: 25px 20px;
+                width: 95%;
+            }
+            
+            .modal-emoji {
+                font-size: 3rem;
+            }
+            
+            .modal-title {
+                font-size: 1.3rem;
+            }
+            
+            .modal-message {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media screen and (max-width: 360px) {
+            .container {
+                padding: 30px 0 50px 0;
+            }
+            
+            .mood-grid {
+                gap: 12px;
+            }
+            
+            .mood-card {
+                padding: 18px 8px;
+            }
+            
+            .modal {
+                padding: 20px 15px;
+            }
+        }
+
+        /* ======================== BACK BUTTON ======================== */
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #d63384;
+            border: 2px solid rgba(255, 182, 217, 0.5);
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(214, 51, 132, 0.2);
+            border-color: rgba(255, 105, 180, 0.7);
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-container" id="floatingStuff"></div>
+    
+    <a href="javascript:history.back()" class="back-btn">← Back</a>
+    
+    <div class="container">
+        <h1 class="page-title">How are you feeling? 💕</h1>
+        <p class="page-subtitle">Whatever it is, I'm here for you ✨</p>
+        
+        <div class="mood-grid">
+            <div class="mood-card" data-mood="sad">
+                <span class="mood-emoji">😢</span>
+                <div class="mood-label">Sad</div>
+            </div>
+            
+            <div class="mood-card" data-mood="tired">
+                <span class="mood-emoji">😴</span>
+                <div class="mood-label">Tired</div>
+            </div>
+            
+            <div class="mood-card" data-mood="angry">
+                <span class="mood-emoji">😡</span>
+                <div class="mood-label">Angry</div>
+            </div>
+            
+            <div class="mood-card" data-mood="overthinking">
+                <span class="mood-emoji">🧠</span>
+                <div class="mood-label">Overthinking</div>
+            </div>
+            
+            <div class="mood-card" data-mood="loved">
+                <span class="mood-emoji">💖</span>
+                <div class="mood-label">Loved</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <button class="close-btn" id="closeBtn">❌</button>
+            <div class="modal-emoji" id="modalEmoji">💕</div>
+            <h2 class="modal-title" id="modalTitle">You're Beautiful</h2>
+            <p class="modal-message" id="modalMessage">Every feeling is valid, and you are loved.</p>
+        </div>
+    </div>
+
+    <script>
+        // Mood messages data
+        const moodData = {
+            sad: {
+                emoji: "😢",
+                title: "It's Okay to Feel Sad",
+                message: "It's okay to cry, my love. I'm always just a message away, and I love you even more when you're soft and human. Your tears are precious to me. 💙"
+            },
+            tired: {
+                emoji: "😴",
+                title: "Rest, Beautiful Soul",
+                message: "Rest, my love. Even the stars take a break. You deserve peace and gentle dreams. Close your eyes and let the world wait for you. 🌙"
+            },
+            angry: {
+                emoji: "😡",
+                title: "Your Anger is Valid",
+                message: "Whatever it is, you don't have to carry it alone. Let's shout at the moon together, or scream into pillows. I'm here to hold space for all of you. 🔥"
+            },
+            overthinking: {
+                emoji: "🧠",
+                title: "Breathe With Me",
+                message: "Take a breath, sweetheart. You're safe, you're loved, and you're doing better than you think. Those thoughts don't define you - your heart does. 🌸"
+            },
+            loved: {
+                emoji: "💖",
+                title: "You Are So Loved",
+                message: "Just in case you forgot — you are loved beyond words, beyond time, beyond distance. You are my favorite person in the entire universe. ✨"
+            }
+        };
+
+        // Initialize floating background
+        function initFloatingStuff() {
+            const container = document.getElementById("floatingStuff");
+            const symbols = ['💖','✨','🌸','💝','💕','🎀','💫','🦋'];
+            
+            for(let i = 0; i < 40; i++) {
+                const el = document.createElement("div");
+                el.className = "float-item";
+                el.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+                el.style.left = `${Math.random() * 100}%`;
+                el.style.animationDuration = `${4 + Math.random() * 4}s`;
+                el.style.fontSize = `${16 + Math.random() * 20}px`;
+                el.style.animationDelay = `${Math.random() * 5}s`;
+                container.appendChild(el);
+            }
+        }
+
+        // Create sparkle effect
+        function createSparkle(x, y) {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.innerHTML = '✨';
+            sparkle.style.left = x + 'px';
+            sparkle.style.top = y + 'px';
+            document.body.appendChild(sparkle);
+            
+            setTimeout(() => {
+                if (document.body.contains(sparkle)) {
+                    document.body.removeChild(sparkle);
+                }
+            }, 2000);
+        }
+
+        // Modal functionality
+        const modalOverlay = document.getElementById('modalOverlay');
+        const modalEmoji = document.getElementById('modalEmoji');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalMessage = document.getElementById('modalMessage');
+        const closeBtn = document.getElementById('closeBtn');
+
+        function openModal(mood) {
+            const data = moodData[mood];
+            modalEmoji.textContent = data.emoji;
+            modalTitle.textContent = data.title;
+            modalMessage.textContent = data.message;
+            modalOverlay.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modalOverlay.classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            initFloatingStuff();
+            
+            // Mood card clicks
+            document.querySelectorAll('.mood-card').forEach(card => {
+                card.addEventListener('click', function(e) {
+                    const mood = this.getAttribute('data-mood');
+                    const rect = this.getBoundingClientRect();
+                    const x = rect.left + rect.width / 2;
+                    const y = rect.top + rect.height / 2;
+                    
+                    createSparkle(x - 10, y - 10);
+                    setTimeout(() => openModal(mood), 200);
+                });
+            });
+            
+            // Close modal events
+            closeBtn.addEventListener('click', closeModal);
+            modalOverlay.addEventListener('click', function(e) {
+                if (e.target === modalOverlay) {
+                    closeModal();
+                }
+            });
+            
+            // ESC key to close modal
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
