@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Well Do You Know Me? - Afeee's Birthday</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #ffe6f0, #ffd1e3);
+            font-family: 'Comic Sans MS', cursive;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Floating Background Emojis */
+        .floating-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .float-item {
+            position: absolute;
+            top: 100vh;
+            animation: floatUp linear infinite;
+            opacity: 0.7;
+            user-select: none;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 0;
+            }
+            30% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-120vh) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        /* Quiz Container */
+        .quiz-container {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 8px 32px rgba(214, 51, 132, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 175, 204, 0.3);
+            z-index: 10;
+            position: relative;
+        }
+
+        .quiz-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .quiz-title {
+            font-size: 1.8rem;
+            color: #d63384;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 3px rgba(214, 51, 132, 0.3);
+        }
+
+        .progress-bar {
+            background: #ffd1e3;
+            height: 8px;
+            border-radius: 10px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #ff69b4, #d63384);
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            width: 20%;
+        }
+
+        .question-counter {
+            font-size: 1rem;
+            color: #d63384;
+            margin-bottom: 15px;
+        }
+
+        /* Question Card */
+        .question-card {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.5s ease;
+        }
+
+        .question-card.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .question-card.exit {
+            opacity: 0;
+            transform: translateX(-50px);
+        }
+
+        .question {
+            font-size: 1.2rem;
+            color: #d63384;
+            margin-bottom: 25px;
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        /* Answer Options */
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .option {
+            background: #fff0f5;
+            border: 2px solid #ffd1e3;
+            border-radius: 15px;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            color: #d63384;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option:hover {
+            background: #ffe6f0;
+            border-color: #ff69b4;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 105, 180, 0.3);
+        }
+
+        .option.selected {
+            background: #ff69b4;
+            color: white;
+            border-color: #d63384;
+            box-shadow: 0 4px 15px rgba(255, 105, 180, 0.4);
+        }
+
+        .option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .option:hover::before {
+            left: 100%;
+        }
+
+        /* Buttons */
+        .quiz-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .btn {
+            background: #ff69b4;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 12px 25px;
+            font-size: 1rem;
+            font-family: 'Comic Sans MS', cursive;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 105, 180, 0.3);
+        }
+
+        .btn:hover {
+            background: #d63384;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(214, 51, 132, 0.4);
+        }
+
+        .btn:disabled {
+            background: #ffd1e3;
+            color: #d63384;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Results Screen */
+        .results {
+            display: none;
+            text-align: center;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .results.show {
+            display: block;
+        }
+
+        .score {
+            font-size: 2.5rem;
+            color: #d63384;
+            margin: 20px 0;
+            text-shadow: 2px 2px 4px rgba(214, 51, 132, 0.3);
+        }
+
+        .result-message {
+            font-size: 1.3rem;
+            color: #d63384;
+            margin: 20px 0;
+            line-height: 1.4;
+        }
+
+        .final-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn-secondary {
+            background: #ffd1e3;
+            color: #d63384;
+        }
+
+        .btn-secondary:hover {
+            background: #ffb6d9;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 480px) {
+            .quiz-container {
+                padding: 20px;
+                margin: 10px;
+            }
+
+            .quiz-title {
+                font-size: 1.5rem;
+            }
+
+            .question {
+                font-size: 1.1rem;
+            }
+
+            .option {
+                padding: 12px 15px;
+                font-size: 0.95rem;
+            }
+
+            .final-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-container" id="floatingStuff"></div>
+
+    <div class="quiz-container">
+        <div class="quiz-header">
+            <h1 class="quiz-title">💕 How Well Do You Know Me? 💕</h1>
+            <div class="question-counter" id="questionCounter">Question 1 of 5</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+
+        <div id="quizContent">
+            <div class="question-card active" id="questionCard">
+                <div class="question" id="questionText"></div>
+                <div class="options" id="optionsContainer"></div>
+                <div class="quiz-buttons">
+                    <button class="btn" id="nextBtn" onclick="nextQuestion()" disabled>Next ✨</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="results" id="results">
+            <h2 class="quiz-title">Quiz Complete! 🎉</h2>
+            <div class="score" id="finalScore"></div>
+            <div class="result-message" id="resultMessage"></div>
+            <div class="final-buttons">
+                <button class="btn" onclick="restartQuiz()">🔄 Play Again</button>
+                <button class="btn btn-secondary" onclick="goToGuess()">🎯 Next: Guess What I Picked</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Floating emojis setup
+        const container = document.getElementById("floatingStuff");
+        const symbols = ['💖','✨','🌸','💝','💕','🎀','💫','🌟'];
+        
+        for(let i = 0; i < 30; i++) {
+            const el = document.createElement("div");
+            el.className = "float-item";
+            el.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+            el.style.left = `${Math.random() * 100}%`;
+            el.style.animationDuration = `${4 + Math.random() * 4}s`;
+            el.style.fontSize = `${16 + Math.random() * 20}px`;
+            el.style.animationDelay = `${Math.random() * 5}s`;
+            container.appendChild(el);
+        }
+
+        // Quiz data
+        const questions = [
+            {
+                question: "What's my favorite color? 🌈",
+                options: ["Pink", "Purple", "Blue", "Green"],
+                correct: 0
+            },
+            {
+                question: "What's my dream vacation destination? ✈️",
+                options: ["Paris", "Tokyo", "Maldives", "New York"],
+                correct: 2
+            },
+            {
+                question: "What's my favorite type of music? 🎵",
+                options: ["Pop", "Rock", "Classical", "Jazz"],
+                correct: 0
+            },
+            {
+                question: "What's my biggest fear? 😱",
+                options: ["Spiders", "Heights", "Dark", "Being alone"],
+                correct: 3
+            },
+            {
+                question: "What's my favorite way to spend a weekend? 💕",
+                options: ["Shopping", "Reading", "Cuddling with you", "Watching movies"],
+                correct: 2
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let selectedAnswer = null;
+
+        // Initialize quiz
+        function initQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            selectedAnswer = null;
+            document.getElementById('results').classList.remove('show');
+            document.getElementById('quizContent').style.display = 'block';
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const question = questions[currentQuestion];
+            const questionCard = document.getElementById('questionCard');
+            
+            // Update progress
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            document.getElementById('questionCounter').textContent = `Question ${currentQuestion + 1} of ${questions.length}`;
+            
+            // Animate out old question
+            questionCard.classList.remove('active');
+            questionCard.classList.add('exit');
+            
+            setTimeout(() => {
+                // Update content
+                document.getElementById('questionText').textContent = question.question;
+                
+                const optionsContainer = document.getElementById('optionsContainer');
+                optionsContainer.innerHTML = '';
+                
+                question.options.forEach((option, index) => {
+                    const optionDiv = document.createElement('div');
+                    optionDiv.className = 'option';
+                    optionDiv.textContent = option;
+                    optionDiv.onclick = () => selectAnswer(index, optionDiv);
+                    optionsContainer.appendChild(optionDiv);
+                });
+                
+                // Reset button
+                document.getElementById('nextBtn').disabled = true;
+                selectedAnswer = null;
+                
+                // Animate in new question
+                questionCard.classList.remove('exit');
+                questionCard.classList.add('active');
+            }, 250);
+        }
+
+        function selectAnswer(answerIndex, optionElement) {
+            // Remove previous selections
+            document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+            
+            // Select current option
+            optionElement.classList.add('selected');
+            selectedAnswer = answerIndex;
+            
+            // Enable next button
+            document.getElementById('nextBtn').disabled = false;
+        }
+
+        function nextQuestion() {
+            if (selectedAnswer === null) return;
+            
+            // Check if answer is correct
+            if (selectedAnswer === questions[currentQuestion].correct) {
+                score++;
+            }
+            
+            currentQuestion++;
+            
+            if (currentQuestion < questions.length) {
+                showQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('quizContent').style.display = 'none';
+            
+            const resultsDiv = document.getElementById('results');
+            const scoreDiv = document.getElementById('finalScore');
+            const messageDiv = document.getElementById('resultMessage');
+            
+            scoreDiv.textContent = `${score}/${questions.length}`;
+            
+            let message = "";
+            if (score === 5) {
+                message = "You're officially the expert on me! 💍✨<br>You know me better than I know myself! 😍";
+            } else if (score === 4) {
+                message = "Aww you were so close! 💕<br>Just one more and you'd be perfect! 😘";
+            } else if (score === 3) {
+                message = "Not bad, my love! 💖<br>You're getting to know the real me! 🥰";
+            } else {
+                message = "It's okay, you're still the cutest human I know! 😘<br>We have more time to learn about each other! 💕";
+            }
+            
+            messageDiv.innerHTML = message;
+            resultsDiv.classList.add('show');
+        }
+
+        function restartQuiz() {
+            initQuiz();
+        }
+
+        function goToGuess() {
+            window.location.href = 'guess.html';
+        }
+
+        // Start the quiz
+        initQuiz();
+    </script>
+</body>
+</html>
