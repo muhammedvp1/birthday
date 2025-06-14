@@ -114,6 +114,7 @@
         .mood-card:nth-child(3) { animation-delay: 0.4s; }
         .mood-card:nth-child(4) { animation-delay: 0.6s; }
         .mood-card:nth-child(5) { animation-delay: 0.8s; }
+        .mood-card:nth-child(6) { animation-delay: 1.0s; }
 
         @keyframes cardFloat {
             0% { transform: translateY(0px); }
@@ -338,38 +339,11 @@
             }
         }
 
-        /* ======================== BACK BUTTON ======================== */
-        .back-btn {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            background: rgba(255, 255, 255, 0.9);
-            color: #d63384;
-            border: 2px solid rgba(255, 182, 217, 0.5);
-            padding: 10px 15px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            z-index: 10;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
 
-        .back-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(214, 51, 132, 0.2);
-            border-color: rgba(255, 105, 180, 0.7);
-        }
     </style>
 </head>
 <body>
     <div class="floating-container" id="floatingStuff"></div>
-    
-    <a href="javascript:history.back()" class="back-btn">← Back</a>
     
     <div class="container">
         <h1 class="page-title">How are you feeling? 💕</h1>
@@ -394,6 +368,11 @@
             <div class="mood-card" data-mood="overthinking">
                 <span class="mood-emoji">🧠</span>
                 <div class="mood-label">Overthinking</div>
+            </div>
+            
+            <div class="mood-card" data-mood="anxious">
+                <span class="mood-emoji">😰</span>
+                <div class="mood-label">Anxious</div>
             </div>
             
             <div class="mood-card" data-mood="loved">
@@ -435,6 +414,11 @@
                 emoji: "🧠",
                 title: "Breathe With Me",
                 message: "Take a breath, sweetheart. You're safe, you're loved, and you're doing better than you think. Those thoughts don't define you - your heart does. 🌸"
+            },
+            anxious: {
+                emoji: "😰",
+                title: "You're Going to Be Okay",
+                message: "I know everything feels overwhelming right now, but you've gotten through difficult times before. Ground yourself: name 5 things you can see, 4 you can touch, 3 you can hear. I believe in you. 🌿"
             },
             loved: {
                 emoji: "💖",
@@ -485,11 +469,13 @@
 
         function openModal(mood) {
             const data = moodData[mood];
-            modalEmoji.textContent = data.emoji;
-            modalTitle.textContent = data.title;
-            modalMessage.textContent = data.message;
-            modalOverlay.classList.add('show');
-            document.body.style.overflow = 'hidden';
+            if (data) {
+                modalEmoji.textContent = data.emoji;
+                modalTitle.textContent = data.title;
+                modalMessage.textContent = data.message;
+                modalOverlay.classList.add('show');
+                document.body.style.overflow = 'hidden';
+            }
         }
 
         function closeModal() {
