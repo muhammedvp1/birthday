@@ -200,6 +200,60 @@
             box-shadow: 0 2px 8px rgba(255, 182, 217, 0.2);
         }
 
+        .next-section-btn {
+            background: linear-gradient(135deg, #ff1493, #ff69b4);
+            color: white;
+            border: none;
+            padding: 16px 28px;
+            border-radius: 30px;
+            font-size: 15px;
+            font-family: 'Comic Sans MS', cursive;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(255, 20, 147, 0.4);
+            transition: all 0.3s ease;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            animation: nextBtnGlow 2s ease-in-out infinite;
+            position: fixed;
+            bottom: 95px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 15;
+            display: none;
+        }
+
+        @keyframes nextBtnGlow {
+            0%, 100% { box-shadow: 0 6px 20px rgba(255, 20, 147, 0.4); }
+            50% { box-shadow: 0 8px 25px rgba(255, 20, 147, 0.6); }
+        }
+
+        .next-section-btn:hover {
+            transform: translateX(-50%) translateY(-3px);
+            background: linear-gradient(135deg, #ff0080, #ff1493);
+            box-shadow: 0 8px 25px rgba(255, 20, 147, 0.6);
+        }
+
+        .next-section-btn:active {
+            transform: translateX(-50%) translateY(-1px);
+        }
+
+        .next-section-btn.show {
+            display: block;
+            animation: nextBtnAppear 0.8s ease-out;
+        }
+
+        @keyframes nextBtnAppear {
+            from { 
+                opacity: 0; 
+                transform: translateX(-50%) translateY(20px) scale(0.8); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateX(-50%) translateY(0) scale(1); 
+            }
+        }
+
         .page-indicator {
             position: fixed;
             top: 20px;
@@ -282,6 +336,12 @@
                 bottom: 70px;
                 font-size: 10px;
             }
+            
+            .next-section-btn {
+                bottom: 85px;
+                padding: 14px 24px;
+                font-size: 14px;
+            }
         }
 
         @media screen and (max-width: 360px) {
@@ -318,6 +378,12 @@
                 font-size: 12px;
                 min-width: 65px;
             }
+            
+            .next-section-btn {
+                bottom: 75px;
+                padding: 12px 20px;
+                font-size: 13px;
+            }
         }
 
         /* ======================== SAFE AREAS FOR MOBILE ======================== */
@@ -337,6 +403,10 @@
             
             .swipe-hint {
                 bottom: max(90px, env(safe-area-inset-bottom) + 80px);
+            }
+            
+            .next-section-btn {
+                bottom: max(95px, env(safe-area-inset-bottom) + 95px);
             }
         }
     </style>
@@ -364,6 +434,10 @@
         <button class="nav-btn" id="prevBtn" onclick="previousPage()">← Prev</button>
         <button class="nav-btn" id="nextBtn" onclick="nextPage()">Next →</button>
     </div>
+
+    <button class="next-section-btn" id="nextSectionBtn" onclick="goToMoodCards()">
+        Continue to Mood Cards ✨
+    </button>
 
     <script>
         // Memory data - you can easily customize this
@@ -472,6 +546,7 @@
             if (currentPage < memories.length - 1) {
                 currentPage++;
                 updatePage();
+                checkShowNextSection();
             }
         }
 
@@ -479,7 +554,26 @@
             if (currentPage > 0) {
                 currentPage--;
                 updatePage();
+                checkShowNextSection();
             }
+        }
+
+        // Check if we should show the "next section" button
+        function checkShowNextSection() {
+            const nextSectionBtn = document.getElementById('nextSectionBtn');
+            
+            if (currentPage === memories.length - 1) {
+                // On last page - show next section button
+                nextSectionBtn.classList.add('show');
+            } else {
+                // Not on last page - hide next section button
+                nextSectionBtn.classList.remove('show');
+            }
+        }
+
+        // Navigate to mood cards page
+        function goToMoodCards() {
+            window.location.href = 'mood-cards.html';
         }
 
         // Touch/swipe functionality
@@ -526,6 +620,7 @@
             initFloatingStuff();
             initPageIndicators();
             updatePage();
+            checkShowNextSection(); // Check initial state
             
             // Add event listeners
             document.addEventListener('touchstart', handleTouchStart);
