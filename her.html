@@ -288,8 +288,15 @@
             transition: transform 0.6s;
         }
 
-        .fact-card:hover .fact-card-inner {
+        .fact-card.flipped .fact-card-inner {
             transform: rotateY(180deg);
+        }
+
+        /* Keep hover for desktop users */
+        @media (hover: hover) and (pointer: fine) {
+            .fact-card:hover .fact-card-inner {
+                transform: rotateY(180deg);
+            }
         }
 
         .fact-front, .fact-back {
@@ -716,6 +723,14 @@
             // Add sparkle effect to trait cards
             document.querySelectorAll('.trait-card').forEach(card => {
                 card.addEventListener('click', createSparkle);
+            });
+            
+            // Add click functionality to fact cards for mobile
+            document.querySelectorAll('.fact-card').forEach(card => {
+                card.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    this.classList.toggle('flipped');
+                });
             });
         });
     </script>
