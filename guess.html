@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess What I Picked - Afeee's Birthday</title>
+    <style>
+        /* ======================== RESET + BASE ======================== */
+        *, *::before, *::after { 
+            padding: 0; 
+            margin: 0; 
+            box-sizing: border-box; 
+        }
+        
+        body {
+            background: linear-gradient(135deg, #ffe6f0, #ffd1e3);
+            font-family: 'Comic Sans MS', cursive;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* ======================== FLOATING EMOJIS ======================== */
+        .floating-container {
+            position: fixed;
+            top: 0; 
+            left: 0;
+            width: 100%; 
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+        
+        .float-item {
+            position: absolute;
+            top: 100vh;
+            animation: floatUp linear infinite;
+            opacity: 0.7;
+            user-select: none;
+        }
+        
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(1); opacity: 0; }
+            30% { opacity: 1; }
+            100% { transform: translateY(-120vh) scale(1.2); opacity: 0; }
+        }
+
+        /* ======================== GAME CONTAINER ======================== */
+        .game-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            padding: 35px;
+            max-width: 450px;
+            width: 100%;
+            box-shadow: 0 8px 32px rgba(214, 51, 132, 0.2);
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(255, 182, 217, 0.3);
+            z-index: 10;
+            position: relative;
+            text-align: center;
+            animation: gameIn 0.6s ease-out;
+        }
+
+        @keyframes gameIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px) scale(0.95); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0) scale(1); 
+            }
+        }
+
+        /* ======================== HEADER ======================== */
+        .game-title {
+            font-size: 2.2rem;
+            color: #d63384;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(214, 51, 132, 0.2);
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+
+        .game-subtitle {
+            font-size: 1.1rem;
+            color: #d63384;
+            opacity: 0.8;
+            margin-bottom: 25px;
+            animation: fadeIn 1s ease-out 0.5s backwards;
+        }
+
+        @keyframes titleGlow {
+            0% { text-shadow: 2px 2px 4px rgba(214, 51, 132, 0.2); }
+            100% { text-shadow: 2px 2px 8px rgba(214, 51, 132, 0.4); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 0.8; transform: translateY(0); }
+        }
+
+        /* ======================== PROGRESS BAR ======================== */
+        .progress-container {
+            margin-bottom: 25px;
+        }
+
+        .progress-text {
+            font-size: 0.9rem;
+            color: #d63384;
+            margin-bottom: 8px;
+            opacity: 0.8;
+        }
+
+        .progress-bar {
+            background: #ffd1e3;
+            height: 8px;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #ff69b4, #d63384);
+            height: 100%;
+            border-radius: 10px;
+            width: 33.33%;
+            transition: width 0.6s ease;
+            position: relative;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* ======================== QUESTION SECTION ======================== */
+        .question-container {
+            margin-bottom: 30px;
+            animation: questionSlide 0.5s ease-out;
+        }
+
+        @keyframes questionSlide {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .question-text {
+            font-size: 1.3rem;
+            color: #d63384;
+            margin-bottom: 25px;
+            line-height: 1.4;
+            text-shadow: 1px 1px 2px rgba(214, 51, 132, 0.1);
+        }
+
+        /* ======================== OPTIONS ======================== */
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .option-btn {
+            background: rgba(255, 240, 245, 0.9);
+            border: 2px solid #ffd1e3;
+            border-radius: 20px;
+            padding: 18px 20px;
+            font-size: 1.1rem;
+            color: #d63384;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            font-family: 'Comic Sans MS', cursive;
+            text-align: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .option-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 105, 180, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .option-btn:hover::before {
+            left: 100%;
+        }
+
+        .option-btn:hover {
+            background: #ffe6f0;
+            border-color: #ff69b4;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 105, 180, 0.3);
+        }
+
+        .option-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .option-btn.selected {
+            background: #ff69b4;
+            color: white;
+            border-color: #d63384;
+            box-shadow: 0 6px 20px rgba(255, 105, 180, 0.4);
+        }
+
+        .option-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        /* ======================== FEEDBACK SECTION ======================== */
+        .feedback-container {
+            margin: 25px 0;
+            padding: 20px;
+            border-radius: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+            display: none;
+        }
+
+        .feedback-container.show {
+            opacity: 1;
+            transform: translateY(0);
+            display: block;
+        }
+
+        .feedback-container.correct {
+            background: rgba(76, 175, 80, 0.1);
+            border: 2px solid rgba(76, 175, 80, 0.3);
+        }
+
+        .feedback-container.wrong {
+            background: rgba(255, 152, 0, 0.1);
+            border: 2px solid rgba(255, 152, 0, 0.3);
+        }
+
+        .feedback-emoji {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            animation: feedbackBounce 0.6s ease-out;
+        }
+
+        @keyframes feedbackBounce {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .feedback-text {
+            font-size: 1.1rem;
+            color: #d63384;
+            line-height: 1.4;
+        }
+
+        /* ======================== BUTTONS ======================== */
+        .btn {
+            background: #ff69b4;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 14px 28px;
+            font-size: 1rem;
+            font-family: 'Comic Sans MS', cursive;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 105, 180, 0.3);
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn:hover {
+            background: #d63384;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(214, 51, 132, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn:disabled {
+            background: #ffd1e3;
+            color: #d63384;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn:disabled::before {
+            display: none;
+        }
+
+        .btn-secondary {
+            background: #ffd1e3;
+            color: #d63384;
+            margin-left: 10px;
+        }
+
+        .btn-secondary:hover {
+            background: #ffb6d9;
+            color: #d63384;
+        }
+
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        /* ======================== RESULTS SECTION ======================== */
+        .results-container {
+            display: none;
+            animation: resultsIn 0.8s ease-out;
+        }
+
+        .results-container.show {
+            display: block;
+        }
+
+        @keyframes resultsIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px) scale(0.9); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0) scale(1); 
+            }
+        }
+
+        .results-emoji {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: resultsEmojiBounce 1s ease-out;
+        }
+
+        @keyframes resultsEmojiBounce {
+            0% { transform: scale(0) rotate(0deg); }
+            50% { transform: scale(1.2) rotate(180deg); }
+            100% { transform: scale(1) rotate(360deg); }
+        }
+
+        .results-title {
+            font-size: 1.8rem;
+            color: #d63384;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 3px rgba(214, 51, 132, 0.2);
+        }
+
+        .results-message {
+            font-size: 1.2rem;
+            color: #d63384;
+            margin-bottom: 30px;
+            line-height: 1.5;
+            opacity: 0.9;
+        }
+
+        /* ======================== RESPONSIVE ======================== */
+        @media screen and (max-width: 480px) {
+            .game-container {
+                padding: 25px 20px;
+                margin: 10px;
+            }
+            
+            .game-title {
+                font-size: 1.8rem;
+            }
+            
+            .game-subtitle {
+                font-size: 1rem;
+            }
+            
+            .question-text {
+                font-size: 1.2rem;
+            }
+            
+            .option-btn {
+                padding: 15px 18px;
+                font-size: 1rem;
+            }
+            
+            .feedback-text {
+                font-size: 1rem;
+            }
+            
+            .btn {
+                padding: 12px 24px;
+                font-size: 0.9rem;
+            }
+            
+            .buttons-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn-secondary {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+        }
+
+        @media screen and (max-width: 360px) {
+            .game-container {
+                padding: 20px 15px;
+            }
+            
+            .game-title {
+                font-size: 1.6rem;
+            }
+            
+            .option-btn {
+                padding: 12px 15px;
+                font-size: 0.95rem;
+            }
+        }
+
+        /* ======================== SPARKLE EFFECTS ======================== */
+        .sparkle {
+            position: absolute;
+            pointer-events: none;
+            font-size: 14px;
+            color: #ff69b4;
+            animation: sparkleFloat 1.5s ease-out forwards;
+            z-index: 1001;
+        }
+
+        @keyframes sparkleFloat {
+            0% { 
+                transform: translateY(0) scale(0) rotate(0deg); 
+                opacity: 1; 
+            }
+            100% { 
+                transform: translateY(-50px) scale(1.5) rotate(360deg); 
+                opacity: 0; 
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-container" id="floatingStuff"></div>
+    
+    <div class="game-container">
+        <!-- Header -->
+        <div class="game-header">
+            <h1 class="game-title">💕 Guess What I Picked 💕</h1>
+            <p class="game-subtitle">Let's see how well you know my choices! ✨</p>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-text" id="progressText">Question 1 of 3</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+
+        <!-- Question Section -->
+        <div id="questionSection">
+            <div class="question-container">
+                <div class="question-text" id="questionText"></div>
+            </div>
+
+            <div class="options-container" id="optionsContainer"></div>
+
+            <div class="feedback-container" id="feedbackContainer">
+                <div class="feedback-emoji" id="feedbackEmoji"></div>
+                <div class="feedback-text" id="feedbackText"></div>
+            </div>
+
+            <div class="buttons-container">
+                <button class="btn" id="nextBtn" onclick="nextQuestion()" disabled>Next ✨</button>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div class="results-container" id="resultsSection">
+            <div class="results-emoji">🎉</div>
+            <h2 class="results-title">You completed the game!</h2>
+            <p class="results-message">You know me better than anyone 💖<br>Every guess showed how much you care about understanding me! 🥰</p>
+            <div class="buttons-container">
+                <button class="btn" onclick="restartGame()">🔄 Play Again</button>
+                <button class="btn btn-secondary" onclick="goToHerPage()">💖 Continue to Your Special Page</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize floating background emojis
+        function initFloatingStuff() {
+            const container = document.getElementById("floatingStuff");
+            const symbols = ['💖','✨','🌸','💝','💕','🎀','💫','🦋'];
+            
+            for(let i = 0; i < 35; i++) {
+                const el = document.createElement("div");
+                el.className = "float-item";
+                el.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+                el.style.left = `${Math.random() * 100}%`;
+                el.style.animationDuration = `${4 + Math.random() * 4}s`;
+                el.style.fontSize = `${16 + Math.random() * 20}px`;
+                el.style.animationDelay = `${Math.random() * 5}s`;
+                container.appendChild(el);
+            }
+        }
+
+        // Game questions data
+        const questions = [
+            {
+                question: "If I could plan a surprise date for us, what would I pick? 🌹",
+                options: [
+                    "🏖️ Beach picnic at sunset",
+                    "🌟 Stargazing on a rooftop",
+                    "🎨 Art museum and café hopping",
+                    "🏡 Cozy movie night at home"
+                ],
+                correct: 1,
+                correctMessage: "Yes! You really know me 🥰 Stargazing with you sounds perfect!",
+                wrongMessage: "Hehe I picked stargazing... but I love your choice too 💕"
+            },
+            {
+                question: "What's my ideal way to spend a rainy afternoon? ☔",
+                options: [
+                    "📚 Reading together under blankets",
+                    "🍳 Cooking something delicious",
+                    "🎮 Playing games and being silly",
+                    "💤 Taking a cozy nap together"
+                ],
+                correct: 0,
+                correctMessage: "Exactly! Reading with you sounds so peaceful 📖💕",
+                wrongMessage: "I picked reading under blankets... but your idea is adorable too! 🥰"
+            },
+            {
+                question: "If I could give you any gift right now, what would I choose? 🎁",
+                options: [
+                    "💍 A piece of jewelry",
+                    "✍️ A handwritten love letter",
+                    "🌺 A bouquet of your favorite flowers",
+                    "🧸 A cute stuffed animal"
+                ],
+                correct: 1,
+                correctMessage: "Perfect! A love letter from my heart to yours 💌✨",
+                wrongMessage: "I picked a handwritten love letter... though everything sounds sweet! 💕"
+            }
+        ];
+
+        let currentQuestion = 0;
+        let selectedAnswer = null;
+        let gameFinished = false;
+
+        // Initialize game
+        function initGame() {
+            currentQuestion = 0;
+            selectedAnswer = null;
+            gameFinished = false;
+            
+            document.getElementById('questionSection').style.display = 'block';
+            document.getElementById('resultsSection').classList.remove('show');
+            document.getElementById('feedbackContainer').classList.remove('show');
+            
+            showQuestion();
+        }
+
+        // Display current question
+        function showQuestion() {
+            const question = questions[currentQuestion];
+            
+            // Update progress
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            document.getElementById('progressText').textContent = `Question ${currentQuestion + 1} of ${questions.length}`;
+            
+            // Update question text
+            document.getElementById('questionText').textContent = question.question;
+            
+            // Update options
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                const optionBtn = document.createElement('button');
+                optionBtn.className = 'option-btn';
+                optionBtn.textContent = option;
+                optionBtn.onclick = () => selectAnswer(index, optionBtn);
+                optionsContainer.appendChild(optionBtn);
+            });
+            
+            // Reset state
+            document.getElementById('nextBtn').disabled = true;
+            document.getElementById('feedbackContainer').classList.remove('show');
+            selectedAnswer = null;
+        }
+
+        // Handle answer selection
+        function selectAnswer(answerIndex, optionElement) {
+            if (selectedAnswer !== null) return; // Prevent multiple selections
+            
+            selectedAnswer = answerIndex;
+            const question = questions[currentQuestion];
+            
+            // Disable all options
+            document.querySelectorAll('.option-btn').forEach(btn => {
+                btn.disabled = true;
+            });
+            
+            // Highlight selected option
+            optionElement.classList.add('selected');
+            
+            // Create sparkle effect
+            createSparkle(optionElement);
+            
+            // Show feedback
+            setTimeout(() => {
+                showFeedback(answerIndex === question.correct);
+            }, 300);
+        }
+
+        // Show feedback for answer
+        function showFeedback(isCorrect) {
+            const question = questions[currentQuestion];
+            const feedbackContainer = document.getElementById('feedbackContainer');
+            const feedbackEmoji = document.getElementById('feedbackEmoji');
+            const feedbackText = document.getElementById('feedbackText');
+            
+            if (isCorrect) {
+                feedbackContainer.className = 'feedback-container correct show';
+                feedbackEmoji.textContent = '✅';
+                feedbackText.textContent = question.correctMessage;
+            } else {
+                feedbackContainer.className = 'feedback-container wrong show';
+                feedbackEmoji.textContent = '💕';
+                feedbackText.textContent = question.wrongMessage;
+            }
+            
+            // Enable next button
+            document.getElementById('nextBtn').disabled = false;
+        }
+
+        // Move to next question
+        function nextQuestion() {
+            currentQuestion++;
+            
+            if (currentQuestion < questions.length) {
+                // Animate out current question
+                const questionContainer = document.querySelector('.question-container');
+                questionContainer.style.animation = 'none';
+                setTimeout(() => {
+                    questionContainer.style.animation = 'questionSlide 0.5s ease-out';
+                    showQuestion();
+                }, 100);
+            } else {
+                // Show results
+                showResults();
+            }
+        }
+
+        // Show final results
+        function showResults() {
+            document.getElementById('questionSection').style.display = 'none';
+            document.getElementById('resultsSection').classList.add('show');
+            gameFinished = true;
+            
+            // Create celebration sparkles
+            setTimeout(() => {
+                createCelebrationSparkles();
+            }, 500);
+        }
+
+        // Restart the game
+        function restartGame() {
+            initGame();
+        }
+
+        // Navigate to her special page
+        function goToHerPage() {
+            window.location.href = 'her.html';
+        }
+
+        // Create sparkle effect
+        function createSparkle(element) {
+            const rect = element.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    const sparkle = document.createElement('div');
+                    sparkle.className = 'sparkle';
+                    sparkle.innerHTML = '✨';
+                    sparkle.style.position = 'fixed';
+                    sparkle.style.left = (centerX + (Math.random() - 0.5) * 60) + 'px';
+                    sparkle.style.top = (centerY + (Math.random() - 0.5) * 60) + 'px';
+                    document.body.appendChild(sparkle);
+                    
+                    setTimeout(() => {
+                        if (document.body.contains(sparkle)) {
+                            document.body.removeChild(sparkle);
+                        }
+                    }, 1500);
+                }, i * 100);
+            }
+        }
+
+        // Create celebration sparkles
+        function createCelebrationSparkles() {
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    const sparkle = document.createElement('div');
+                    sparkle.className = 'sparkle';
+                    sparkle.innerHTML = ['✨', '💖', '🌟', '💕'][Math.floor(Math.random() * 4)];
+                    sparkle.style.position = 'fixed';
+                    sparkle.style.left = Math.random() * window.innerWidth + 'px';
+                    sparkle.style.top = Math.random() * window.innerHeight + 'px';
+                    sparkle.style.fontSize = (12 + Math.random() * 8) + 'px';
+                    document.body.appendChild(sparkle);
+                    
+                    setTimeout(() => {
+                        if (document.body.contains(sparkle)) {
+                            document.body.removeChild(sparkle);
+                        }
+                    }, 1500);
+                }, i * 200);
+            }
+        }
+
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initFloatingStuff();
+            initGame();
+        });
+    </script>
+</body>
+</html>
