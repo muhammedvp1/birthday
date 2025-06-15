@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Days Until I See You</title>
+    <style>
+        /* ======================== RESET + BASE ======================== */
+        *, *::before, *::after { 
+            padding: 0; 
+            margin: 0; 
+            box-sizing: border-box; 
+        }
+        
+        body {
+            background: linear-gradient(135deg, #ffe6f0, #ffd1e3);
+            font-family: 'Comic Sans MS', cursive;
+            overflow: hidden;
+            position: relative;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* ======================== FLOATING HEARTS ======================== */
+        .floating-container {
+            position: fixed;
+            top: 0; 
+            left: 0;
+            width: 100%; 
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+        
+        .float-item {
+            position: absolute;
+            top: 100vh;
+            animation: floatUp linear infinite;
+            opacity: 0.6;
+            user-select: none;
+        }
+        
+        @keyframes floatUp {
+            0% { 
+                transform: translateY(0) scale(1) rotate(0deg); 
+                opacity: 0; 
+            }
+            20% { opacity: 0.8; }
+            80% { opacity: 0.8; }
+            100% { 
+                transform: translateY(-120vh) scale(1.3) rotate(360deg); 
+                opacity: 0; 
+            }
+        }
+
+        /* ======================== MAIN CONTENT ======================== */
+        .container {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        /* ======================== HEADER ======================== */
+        .page-title {
+            font-size: 3rem;
+            color: #d63384;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(214, 51, 132, 0.3);
+            animation: titlePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes titlePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            color: #d63384;
+            opacity: 0.8;
+            margin-bottom: 50px;
+            animation: fadeIn 1s ease-out 0.5s backwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 0.8; transform: translateY(0); }
+        }
+
+        /* ======================== COUNTDOWN TIMER ======================== */
+        .countdown-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 60px;
+        }
+
+        .time-box {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 25px;
+            min-width: 120px;
+            box-shadow: 0 8px 25px rgba(214, 51, 132, 0.2);
+            border: 2px solid rgba(255, 182, 217, 0.3);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            animation: boxFloat 3s ease-in-out infinite;
+        }
+
+        .time-box:nth-child(1) { animation-delay: 0s; }
+        .time-box:nth-child(2) { animation-delay: 0.5s; }
+        .time-box:nth-child(3) { animation-delay: 1s; }
+        .time-box:nth-child(4) { animation-delay: 1.5s; }
+
+        @keyframes boxFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .time-box:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 12px 35px rgba(214, 51, 132, 0.3);
+            border-color: #ff69b4;
+        }
+
+        .time-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #ff69b4;
+            display: block;
+            line-height: 1;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .time-label {
+            font-size: 1rem;
+            color: #d63384;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.8;
+        }
+
+        /* ======================== MESSAGE ======================== */
+        .love-message {
+            font-size: 1.3rem;
+            color: #d63384;
+            margin-bottom: 50px;
+            font-style: italic;
+            opacity: 0.9;
+            animation: fadeIn 1s ease-out 1.5s backwards;
+            line-height: 1.6;
+        }
+
+        /* ======================== BACK BUTTON ======================== */
+        .back-button {
+            background: #ff69b4;
+            color: white;
+            border: none;
+            padding: 14px 35px;
+            font-size: 1.1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: 'Comic Sans MS', cursive;
+            box-shadow: 0 6px 20px rgba(255, 105, 180, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .back-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .back-button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 105, 180, 0.4);
+        }
+
+        .back-button:active {
+            transform: translateY(0);
+        }
+
+        /* ======================== SPARKLE EFFECTS ======================== */
+        .sparkle {
+            position: fixed;
+            pointer-events: none;
+            animation: sparkleAnim 2s linear;
+            z-index: 100;
+        }
+
+        @keyframes sparkleAnim {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* ======================== RESPONSIVE ======================== */
+        @media screen and (max-width: 768px) {
+            .page-title {
+                font-size: 2.5rem;
+            }
+
+            .subtitle {
+                font-size: 1.3rem;
+            }
+
+            .countdown-container {
+                gap: 15px;
+            }
+
+            .time-box {
+                min-width: 100px;
+                padding: 20px;
+            }
+
+            .time-number {
+                font-size: 2.5rem;
+            }
+
+            .time-label {
+                font-size: 0.9rem;
+            }
+
+            .love-message {
+                font-size: 1.1rem;
+                padding: 0 20px;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .page-title {
+                font-size: 2rem;
+                margin-bottom: 10px;
+            }
+
+            .subtitle {
+                font-size: 1.1rem;
+                margin-bottom: 30px;
+            }
+
+            .countdown-container {
+                gap: 10px;
+                margin-bottom: 40px;
+            }
+
+            .time-box {
+                min-width: 70px;
+                padding: 15px 10px;
+            }
+
+            .time-number {
+                font-size: 2rem;
+                margin-bottom: 5px;
+            }
+
+            .time-label {
+                font-size: 0.7rem;
+                letter-spacing: 1px;
+            }
+
+            .love-message {
+                font-size: 1rem;
+                margin-bottom: 35px;
+            }
+
+            .back-button {
+                padding: 12px 28px;
+                font-size: 1rem;
+            }
+        }
+
+        @media screen and (max-width: 360px) {
+            .page-title {
+                font-size: 1.8rem;
+            }
+
+            .time-box {
+                min-width: 65px;
+                padding: 12px 8px;
+            }
+
+            .time-number {
+                font-size: 1.8rem;
+            }
+
+            .time-label {
+                font-size: 0.65rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-container" id="floatingStuff"></div>
+    
+    <div class="container">
+        <h1 class="page-title">Days Until I See You</h1>
+        <p class="subtitle">Not long now...</p>
+        
+        <div class="countdown-container" id="countdown">
+            <div class="time-box">
+                <span class="time-number" id="days">0</span>
+                <span class="time-label">Days</span>
+            </div>
+            <div class="time-box">
+                <span class="time-number" id="hours">0</span>
+                <span class="time-label">Hours</span>
+            </div>
+            <div class="time-box">
+                <span class="time-number" id="minutes">0</span>
+                <span class="time-label">Minutes</span>
+            </div>
+            <div class="time-box">
+                <span class="time-number" id="seconds">0</span>
+                <span class="time-label">Seconds</span>
+            </div>
+        </div>
+        
+        <p class="love-message">
+            Every second brings me closer to holding you in my arms for the first time 💖
+        </p>
+        
+        <button class="back-button" onclick="goBack()">← Back</button>
+    </div>
+
+    <script>
+        // Initialize floating hearts
+        function initFloatingHearts() {
+            const container = document.getElementById("floatingStuff");
+            const hearts = ['💖', '💗', '🩷', '💕'];
+            
+            for(let i = 0; i < 30; i++) {
+                const el = document.createElement("div");
+                el.className = "float-item";
+                el.innerText = hearts[Math.floor(Math.random() * hearts.length)];
+                el.style.left = `${Math.random() * 100}%`;
+                el.style.animationDuration = `${6 + Math.random() * 4}s`;
+                el.style.fontSize = `${20 + Math.random() * 25}px`;
+                el.style.animationDelay = `${Math.random() * 5}s`;
+                container.appendChild(el);
+            }
+        }
+
+        // Countdown timer
+        function updateCountdown() {
+            const meetingDate = new Date('August 22, 2025 00:00:00').getTime();
+            const now = new Date().getTime();
+            const distance = meetingDate - now;
+
+            if (distance < 0) {
+                document.getElementById('days').textContent = '0';
+                document.getElementById('hours').textContent = '0';
+                document.getElementById('minutes').textContent = '0';
+                document.getElementById('seconds').textContent = '0';
+                document.querySelector('.love-message').textContent = "The wait is over! Time to meet! 💕✨";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Update with smooth transitions
+            updateNumber('days', days);
+            updateNumber('hours', hours);
+            updateNumber('minutes', minutes);
+            updateNumber('seconds', seconds);
+        }
+
+        // Smooth number update
+        function updateNumber(id, value) {
+            const element = document.getElementById(id);
+            const currentValue = parseInt(element.textContent);
+            
+            if (currentValue !== value) {
+                element.style.transform = 'scale(1.2)';
+                element.style.color = '#d63384';
+                element.textContent = value;
+                
+                setTimeout(() => {
+                    element.style.transform = 'scale(1)';
+                    element.style.color = '#ff69b4';
+                }, 300);
+                
+                // Create sparkle effect on change
+                if (Math.random() > 0.7) {
+                    createSparkle(element);
+                }
+            }
+        }
+
+        // Create sparkle effect
+        function createSparkle(element) {
+            const rect = element.getBoundingClientRect();
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.innerHTML = '✨';
+            sparkle.style.left = rect.left + rect.width / 2 + 'px';
+            sparkle.style.top = rect.top + 'px';
+            sparkle.style.fontSize = '20px';
+            document.body.appendChild(sparkle);
+            
+            setTimeout(() => sparkle.remove(), 2000);
+        }
+
+        // Back button function
+        function goBack() {
+            window.history.back();
+        }
+
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', function() {
+            initFloatingHearts();
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+            
+            // Add click sparkles to time boxes
+            document.querySelectorAll('.time-box').forEach(box => {
+                box.addEventListener('click', function() {
+                    createSparkle(this.querySelector('.time-number'));
+                });
+            });
+        });
+
+        // Create random sparkles occasionally
+        setInterval(() => {
+            if (Math.random() > 0.8) {
+                const boxes = document.querySelectorAll('.time-number');
+                const randomBox = boxes[Math.floor(Math.random() * boxes.length)];
+                createSparkle(randomBox);
+            }
+        }, 3000);
+    </script>
+</body>
+</html>
