@@ -1,16 +1,328 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="style.css" />
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Afeee's Birthday</title>
-  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Login Screen Styles */
+    .login-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #ffe6f0, #ffd1e3);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+
+    .login-overlay.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .login-container {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(214, 51, 132, 0.2);
+      text-align: center;
+      max-width: 320px;
+      width: 90%;
+    }
+
+    .login-title {
+      font-size: 24px;
+      color: #d63384;
+      margin-bottom: 25px;
+      font-family: 'Comic Sans MS', cursive;
+    }
+
+    .code-input {
+      width: 100%;
+      padding: 12px 20px;
+      font-size: 18px;
+      border: 2px solid #ffb6d9;
+      border-radius: 25px;
+      outline: none;
+      text-align: center;
+      font-family: 'Comic Sans MS', cursive;
+      transition: border-color 0.3s ease;
+      box-sizing: border-box;
+    }
+
+    .code-input:focus {
+      border-color: #d63384;
+    }
+
+    .unlock-btn {
+      background: #ff69b4;
+      color: white;
+      border: none;
+      padding: 12px 40px;
+      font-size: 18px;
+      border-radius: 25px;
+      cursor: pointer;
+      margin-top: 20px;
+      font-family: 'Comic Sans MS', cursive;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(255, 105, 180, 0.3);
+    }
+
+    .unlock-btn:hover {
+      background: #ff1493;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 105, 180, 0.4);
+    }
+
+    .unlock-btn:active {
+      transform: translateY(0);
+    }
+
+    .error-message {
+      color: #ff1493;
+      margin-top: 10px;
+      font-size: 14px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      font-family: 'Comic Sans MS', cursive;
+    }
+
+    .error-message.show {
+      opacity: 1;
+    }
+
+    /* Original Styles */
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: linear-gradient(135deg, #ffe6f0, #ffd1e3);
+      font-family: 'Comic Sans MS', cursive;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .floating-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .float-item {
+      position: absolute;
+      top: 100vh;
+      animation: floatUp linear infinite;
+      opacity: 0.7;
+      user-select: none;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 0;
+      }
+      30% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-120vh) scale(1.2);
+        opacity: 0;
+      }
+    }
+
+    .envelope-wrapper {
+      position: relative;
+      z-index: 2;
+    }
+
+    #envelope {
+      position: relative;
+      height: 220px;
+      width: 340px;
+      border-radius: 6px;
+      background-color: #ffafcc;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+    }
+
+    .front {
+      position: absolute;
+      width: 0;
+      height: 0;
+      z-index: 3;
+    }
+
+    .flap {
+      border-top: 120px solid #ffb6d9;
+      border-left: 170px solid transparent;
+      border-right: 170px solid transparent;
+      border-bottom: 100px solid transparent;
+      transform-origin: top;
+      z-index: 5;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), z-index 0s 0.3s;
+    }
+
+    .pocket {
+      border-left: 170px solid #ffd1e3;
+      border-right: 170px solid #ffd1e3;
+      border-bottom: 110px solid #ffe6f0;
+      border-top: 110px solid transparent;
+      border-bottom-left-radius: 6px;
+      border-bottom-right-radius: 6px;
+    }
+
+    .letter {
+      position: absolute;
+      background-color: #fff0f5;
+      width: 300px;
+      height: 180px;
+      top: 20px;
+      left: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 26px rgba(0, 0, 0, .12);
+      z-index: 1;
+      transform: translateY(0);
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.1s, z-index 0s;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      box-sizing: border-box;
+    }
+
+    .words {
+      font-size: 18px;
+      color: #d63384;
+      text-align: center;
+      margin: 10px 0;
+      line-height: 1.6;
+    }
+
+    #envelope.open .flap {
+      transform: rotateX(180deg);
+      z-index: 1;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), z-index 0s;
+    }
+
+    #envelope.close .flap {
+      transform: rotateX(0deg);
+      z-index: 5;
+    }
+
+    #envelope.open .letter {
+      transform: translateY(-180px);
+      z-index: 6;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.2s, z-index 0s 0.2s;
+    }
+
+    .hearts .heart {
+      display: none;
+    }
+
+    #nextBtn {
+      display: none;
+      position: fixed;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #ff69b4;
+      color: white;
+      padding: 14px 28px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 30px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      cursor: pointer;
+      z-index: 10;
+      animation: fadeIn 1s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @media screen and (max-width: 480px) {
+      .login-container {
+        padding: 30px 20px;
+      }
+
+      #envelope {
+        width: 90vw;
+        max-width: 340px;
+        height: auto;
+      }
+
+      .letter {
+        width: calc(90vw - 40px);
+        max-width: 300px;
+        height: auto;
+        min-height: 160px;
+        padding: 20px;
+        left: 20px;
+      }
+
+      .words {
+        font-size: 16px;
+        line-height: 1.5;
+      }
+
+      .flap, .pocket {
+        border-left-width: 45vw;
+        border-right-width: 45vw;
+        max-width: 170px;
+      }
+
+      .flap {
+        border-top-width: 40vw;
+        max-width: 120px;
+      }
+
+      .pocket {
+        border-bottom-width: 35vw;
+        max-width: 110px;
+      }
+
+      #envelope.open .letter {
+        transform: translateY(-45vw);
+        max-width: 300px;
+      }
+    }
+  </style>
 </head>
-<audio id="popSound" src="https://cdn.pixabay.com/audio/2022/03/22/audio_d8906545bc.mp3" preload="auto"></audio>
-
-
 <body>
+  <!-- Login Screen -->
+  <div class="login-overlay" id="loginOverlay">
+    <div class="login-container">
+      <h1 class="login-title">Enter secret code💖</h1>
+      <input 
+        type="text" 
+        id="codeInput" 
+        class="code-input" 
+        placeholder="Enter your special date"
+        maxlength="8"
+      />
+      <button class="unlock-btn" onclick="checkCode()">Unlock</button>
+      <p class="error-message" id="errorMessage">Try again, sweetie! 💕</p>
+    </div>
+  </div>
+
+  <!-- Original Content -->
   <div class="floating-container" id="floatingStuff"></div>
 
   <div class="envelope-wrapper">
@@ -30,8 +342,119 @@
       </div>
     </div>
   </div>
-<button id="nextBtn" onclick="goToCake()">🎂 Tap to see your cake!</button>
 
-  <script src="script.js"></script>
+  <button id="nextBtn" onclick="goToCake()">🎂 Tap to see your cake!</button>
+
+  <!-- Audio elements -->
+  <audio id="unlockSound" src="https://cdn.pixabay.com/audio/2022/03/10/audio_c8c8a73467.mp3" preload="auto"></audio>
+  <audio id="envelopeSound" src="https://cdn.pixabay.com/audio/2022/03/22/audio_d8906545bc.mp3" preload="auto"></audio>
+
+  <script>
+    // Secret code
+    const SECRET_CODE = "29062004";
+    let isUnlocked = false;
+
+    // Check code function
+    function checkCode() {
+      const input = document.getElementById('codeInput');
+      const errorMsg = document.getElementById('errorMessage');
+      const loginOverlay = document.getElementById('loginOverlay');
+      
+      if (input.value === SECRET_CODE) {
+        // Play unlock sound
+        const unlockSound = document.getElementById('unlockSound');
+        unlockSound.play().catch(() => {});
+        
+        // Hide login screen
+        loginOverlay.classList.add('hidden');
+        isUnlocked = true;
+        
+        // Initialize floating hearts after unlock
+        setTimeout(initializeFloatingHearts, 600);
+      } else {
+        // Show error message
+        errorMsg.classList.add('show');
+        input.value = '';
+        
+        // Shake animation
+        input.style.animation = 'shake 0.5s';
+        setTimeout(() => {
+          input.style.animation = '';
+          errorMsg.classList.remove('show');
+        }, 2000);
+      }
+    }
+
+    // Add shake animation
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-10px); }
+        75% { transform: translateX(10px); }
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Initialize floating hearts
+    function initializeFloatingHearts() {
+      const container = document.getElementById("floatingStuff");
+      const symbols = ['💖','✨','🌸','💝','💕','🎀'];
+      
+      for (let i = 0; i < 30; i++) {
+        const el = document.createElement("div");
+        el.className = "float-item";
+        el.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+        el.style.left = `${Math.random() * 100}%`;
+        el.style.animationDuration = `${4 + Math.random() * 4}s`;
+        el.style.fontSize = `${16 + Math.random() * 20}px`;
+        el.style.animationDelay = `${Math.random() * 5}s`;
+        container.appendChild(el);
+      }
+    }
+
+    // Envelope click handler
+    document.addEventListener('DOMContentLoaded', function() {
+      const envelope = document.getElementById("envelope");
+      const nextBtn = document.getElementById("nextBtn");
+      const codeInput = document.getElementById("codeInput");
+
+      // Allow Enter key to submit code
+      codeInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          checkCode();
+        }
+      });
+
+      // Envelope click event
+      envelope.addEventListener("click", function() {
+        if (!isUnlocked) return;
+        
+        // Play envelope sound
+        const envelopeSound = document.getElementById('envelopeSound');
+        envelopeSound.play().catch(() => {});
+        
+        // Toggle envelope state
+        if (envelope.classList.contains("close")) {
+          envelope.classList.remove("close");
+          envelope.classList.add("open");
+          
+          // Show next button after animation
+          setTimeout(() => {
+            nextBtn.style.display = "block";
+          }, 1500);
+        } else {
+          envelope.classList.remove("open");
+          envelope.classList.add("close");
+          nextBtn.style.display = "none";
+        }
+      });
+    });
+
+    // Navigate to cake page
+    function goToCake() {
+      window.location.href = "cake.html";
+    }
+  </script>
 </body>
 </html>
