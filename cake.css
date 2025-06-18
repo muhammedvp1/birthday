@@ -155,7 +155,7 @@ body {
 /* ======================== MESSAGES ======================== */
 .tap-message {
   position: fixed;
-  top: 60px;
+  top: 100px;
   left: 50%;
   transform: translateX(-50%);
   text-align: center;
