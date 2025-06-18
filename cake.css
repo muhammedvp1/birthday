@@ -209,7 +209,6 @@ body {
   50% { transform: translateX(-50%) scale(1.05); }
 }
 
-/* ======================== RESPONSIVE ======================== */
 @media screen and (max-width: 480px) {
   .container {
     width: 90vw;
@@ -217,7 +216,10 @@ body {
     max-width: 350px;
     max-height: 350px;
   }
-  .tap-message h2 { font-size: 1.8rem; }
+  .tap-message h2 { 
+    font-size: 1.5rem; 
+    white-space: nowrap;
+  }
   .birthday-message h1 { font-size: 2rem; }
   .birthday-message p { font-size: 1rem; }
 }
