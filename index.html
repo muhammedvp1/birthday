@@ -151,8 +151,8 @@
 
     #envelope {
       position: relative;
-      height: 220px;
-      width: 340px;
+      height: 180px;
+      width: 280px;
       border-radius: 6px;
       background-color: #ffafcc;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
@@ -167,67 +167,66 @@
     }
 
     .flap {
-      border-top: 120px solid #ffb6d9;
-      border-left: 170px solid transparent;
-      border-right: 170px solid transparent;
-      border-bottom: 100px solid transparent;
+      border-top: 98px solid #ffb6d9;
+      border-left: 140px solid transparent;
+      border-right: 140px solid transparent;
+      border-bottom: 82px solid transparent;
       transform-origin: top;
       z-index: 5;
-      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), z-index 0s 0.3s;
     }
 
     .pocket {
-      border-left: 170px solid #ffd1e3;
-      border-right: 170px solid #ffd1e3;
-      border-bottom: 110px solid #ffe6f0;
-      border-top: 110px solid transparent;
+      border-left: 140px solid #ffd1e3;
+      border-right: 140px solid #ffd1e3;
+      border-bottom: 90px solid #ffe6f0;
+      border-top: 90px solid transparent;
       border-bottom-left-radius: 6px;
       border-bottom-right-radius: 6px;
     }
 
     .letter {
-      position: absolute;
+      position: relative;
       background-color: #fff0f5;
-      width: 300px;
-      height: 180px;
-      top: 20px;
-      left: 20px;
+      width: 90%;
+      height: 70%;
+      top: 5%;
       border-radius: 10px;
       box-shadow: 0 2px 26px rgba(0, 0, 0, .12);
+      margin-left: auto;
+      margin-right: auto;
       z-index: 1;
       transform: translateY(0);
-      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.1s, z-index 0s;
-      padding: 30px;
+      transition: transform 0.4s ease, z-index 0.4s ease;
+      padding: 20px 10px;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      box-sizing: border-box;
     }
 
     .words {
-      font-size: 18px;
+      font-size: 16px;
       color: #d63384;
       text-align: center;
-      margin: 10px 0;
-      line-height: 1.6;
+      margin: 8px 0;
+      line-height: 1.5;
     }
 
-    #envelope.open .flap {
-      transform: rotateX(180deg);
+    .open .flap {
+      transform: rotatex(180deg);
+      transition: transform 0.4s ease;
       z-index: 1;
-      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), z-index 0s;
     }
 
-    #envelope.close .flap {
-      transform: rotateX(0deg);
+    .close .flap {
+      transform: rotatex(0deg);
+      transition: transform 0.4s ease;
       z-index: 5;
     }
 
-    #envelope.open .letter {
-      transform: translateY(-180px);
+    .open .letter {
+      transform: translateY(-120px);
       z-index: 6;
-      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.2s, z-index 0s 0.2s;
     }
 
     .hearts .heart {
@@ -262,45 +261,33 @@
         padding: 30px 20px;
       }
 
-      #envelope {
-        width: 90vw;
-        max-width: 340px;
-        height: auto;
-      }
-
       .letter {
-        width: calc(90vw - 40px);
-        max-width: 300px;
+        width: 95%;
         height: auto;
-        min-height: 160px;
-        padding: 20px;
-        left: 20px;
+        padding: 16px 12px;
       }
 
       .words {
-        font-size: 16px;
-        line-height: 1.5;
+        font-size: 14px;
+        line-height: 1.4;
+      }
+
+      #envelope {
+        width: 90vw;
+        height: auto;
       }
 
       .flap, .pocket {
         border-left-width: 45vw;
         border-right-width: 45vw;
-        max-width: 170px;
       }
 
       .flap {
-        border-top-width: 40vw;
-        max-width: 120px;
+        border-top-width: 35vw;
       }
 
       .pocket {
-        border-bottom-width: 35vw;
-        max-width: 110px;
-      }
-
-      #envelope.open .letter {
-        transform: translateY(-45vw);
-        max-width: 300px;
+        border-bottom-width: 30vw;
       }
     }
   </style>
@@ -435,18 +422,14 @@
         envelopeSound.play().catch(() => {});
         
         // Toggle envelope state
-        if (envelope.classList.contains("close")) {
-          envelope.classList.remove("close");
-          envelope.classList.add("open");
-          
-          // Show next button after animation
+        envelope.classList.toggle("open");
+        envelope.classList.toggle("close");
+
+        // Show next button after animation
+        if (envelope.classList.contains("open")) {
           setTimeout(() => {
             nextBtn.style.display = "block";
           }, 1500);
-        } else {
-          envelope.classList.remove("open");
-          envelope.classList.add("close");
-          nextBtn.style.display = "none";
         }
       });
     });
