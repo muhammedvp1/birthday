@@ -157,7 +157,7 @@ body {
    position: fixed;
   top: 60px;
   left: 80%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) translateY(-20px);
   text-align: center;
   z-index: 100;
   animation: fadeIn 2s 6s forwards;
