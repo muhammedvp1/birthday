@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I Love You - Afeee</title>
+    <style>
+        /* ======================== RESET + BASE ======================== */
+        *, *::before, *::after { 
+            padding: 0; 
+            margin: 0; 
+            box-sizing: border-box; 
+        }
+        
+        body {
+            background: linear-gradient(135deg, #ffe6f0, #ffd1e3);
+            font-family: 'Comic Sans MS', cursive;
+            overflow: hidden;
+            position: relative;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* ======================== FLOATING HEARTS ======================== */
+        .floating-container {
+            position: fixed;
+            top: 0; 
+            left: 0;
+            width: 100%; 
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+        
+        .float-item {
+            position: absolute;
+            top: 100vh;
+            animation: floatUp linear infinite;
+            opacity: 0.6;
+            user-select: none;
+        }
+        
+        @keyframes floatUp {
+            0% { 
+                transform: translateY(0) scale(1) rotate(0deg); 
+                opacity: 0; 
+            }
+            20% { opacity: 0.8; }
+            80% { opacity: 0.8; }
+            100% { 
+                transform: translateY(-120vh) scale(1.4) rotate(360deg); 
+                opacity: 0; 
+            }
+        }
+
+        /* ======================== MAIN CONTENT ======================== */
+        .love-container {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 30px;
+            padding: 50px 40px;
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 15px 50px rgba(214, 51, 132, 0.2);
+            backdrop-filter: blur(15px);
+            border: 3px solid rgba(255, 182, 217, 0.4);
+            position: relative;
+            z-index: 2;
+            animation: containerGlow 1s ease-out;
+            overflow: hidden;
+        }
+
+        .love-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 105, 180, 0.05) 0%, transparent 70%);
+            animation: shimmer 4s infinite;
+            pointer-events: none;
+        }
+
+        @keyframes shimmer {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes containerGlow {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px) scale(0.9); 
+                box-shadow: 0 0 0 rgba(214, 51, 132, 0); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0) scale(1); 
+                box-shadow: 0 15px 50px rgba(214, 51, 132, 0.2); 
+            }
+        }
+
+        /* ======================== TITLE ======================== */
+        .love-title {
+            font-size: 4rem;
+            color: #d63384;
+            margin-bottom: 30px;
+            text-shadow: 0 0 15px rgba(255, 105, 180, 0.3),
+                         0 0 30px rgba(255, 105, 180, 0.2);
+            animation: titlePulse 3s ease-in-out infinite;
+            position: relative;
+            z-index: 3;
+        }
+
+        @keyframes titlePulse {
+            0%, 100% { 
+                transform: scale(1);
+                text-shadow: 0 0 15px rgba(255, 105, 180, 0.3),
+                            0 0 30px rgba(255, 105, 180, 0.2);
+            }
+            50% { 
+                transform: scale(1.05);
+                text-shadow: 0 0 25px rgba(255, 105, 180, 0.5),
+                            0 0 50px rgba(255, 105, 180, 0.3);
+            }
+        }
+
+        /* ======================== MESSAGE ======================== */
+        .love-message {
+            font-size: 1.4rem;
+            color: #d63384;
+            line-height: 1.8;
+            margin-bottom: 40px;
+            opacity: 0;
+            animation: messageSlideIn 1.5s ease-out 0.5s forwards;
+            position: relative;
+            z-index: 3;
+        }
+
+        @keyframes messageSlideIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(20px); 
+            }
+            to { 
+                opacity: 0.9; 
+                transform: translateY(0); 
+            }
+        }
+
+        /* ======================== DECORATIVE HEARTS ======================== */
+        .heart-decoration {
+            position: absolute;
+            font-size: 2rem;
+            color: #ff69b4;
+            opacity: 0.7;
+            animation: heartFloat 3s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        .heart-1 {
+            top: 20px;
+            left: 30px;
+            animation-delay: 0s;
+        }
+
+        .heart-2 {
+            top: 30px;
+            right: 40px;
+            animation-delay: 1s;
+        }
+
+        .heart-3 {
+            bottom: 40px;
+            left: 40px;
+            animation-delay: 2s;
+        }
+
+        .heart-4 {
+            bottom: 20px;
+            right: 30px;
+            animation-delay: 0.5s;
+        }
+
+        @keyframes heartFloat {
+            0%, 100% { 
+                transform: translateY(0) rotate(0deg) scale(1); 
+                opacity: 0.7; 
+            }
+            50% { 
+                transform: translateY(-15px) rotate(10deg) scale(1.1); 
+                opacity: 1; 
+            }
+        }
+
+        /* ======================== SIGNATURE ======================== */
+        .signature {
+            font-size: 1.8rem;
+            color: #d63384;
+            font-style: italic;
+            margin-top: 30px;
+            opacity: 0;
+            animation: signatureFade 2s ease-out 1.5s forwards;
+            text-shadow: 1px 1px 3px rgba(214, 51, 132, 0.2);
+            position: relative;
+            z-index: 3;
+        }
+
+        @keyframes signatureFade {
+            from { 
+                opacity: 0; 
+                transform: translateY(15px); 
+            }
+            to { 
+                opacity: 0.8; 
+                transform: translateY(0); 
+            }
+        }
+
+        /* ======================== SPARKLE EFFECTS ======================== */
+        .sparkle-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .sparkle {
+            position: absolute;
+            font-size: 16px;
+            color: #ff69b4;
+            opacity: 0;
+            animation: sparkleRain 4s ease-in-out infinite;
+        }
+
+        @keyframes sparkleRain {
+            0% { 
+                opacity: 0; 
+                transform: translateY(-10px) scale(0); 
+            }
+            20% { 
+                opacity: 1; 
+                transform: translateY(0) scale(1); 
+            }
+            80% { 
+                opacity: 1; 
+                transform: translateY(10px) scale(1); 
+            }
+            100% { 
+                opacity: 0; 
+                transform: translateY(20px) scale(0); 
+            }
+        }
+
+        /* ======================== PULSE EFFECT ======================== */
+        .pulse-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 100px;
+            border: 2px solid rgba(255, 105, 180, 0.3);
+            border-radius: 50%;
+            animation: pulseRing 3s ease-out infinite;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        @keyframes pulseRing {
+            0% {
+                transform: translate(-50%, -50%) scale(0.8);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(3);
+                opacity: 0;
+            }
+        }
+
+        /* ======================== RESPONSIVE ======================== */
+        @media screen and (max-width: 768px) {
+            .love-container {
+                padding: 40px 30px;
+                max-width: 90%;
+            }
+            
+            .love-title {
+                font-size: 3rem;
+            }
+            
+            .love-message {
+                font-size: 1.2rem;
+                line-height: 1.6;
+            }
+            
+            .signature {
+                font-size: 1.5rem;
+            }
+            
+            .heart-decoration {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            body {
+                padding: 15px;
+            }
+            
+            .love-container {
+                padding: 30px 25px;
+                border-radius: 25px;
+            }
+            
+            .love-title {
+                font-size: 2.5rem;
+                margin-bottom: 25px;
+            }
+            
+            .love-message {
+                font-size: 1.1rem;
+                margin-bottom: 30px;
+            }
+            
+            .signature {
+                font-size: 1.3rem;
+                margin-top: 25px;
+            }
+            
+            .heart-decoration {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media screen and (max-width: 360px) {
+            .love-container {
+                padding: 25px 20px;
+            }
+            
+            .love-title {
+                font-size: 2.2rem;
+            }
+            
+            .love-message {
+                font-size: 1rem;
+                line-height: 1.5;
+            }
+            
+            .signature {
+                font-size: 1.2rem;
+            }
+        }
+
+        /* ======================== GENTLE ANIMATIONS ======================== */
+        .gentle-bounce {
+            animation: gentleBounce 6s ease-in-out infinite;
+        }
+
+        @keyframes gentleBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
+        }
+
+        /* ======================== SAFE AREAS FOR MOBILE ======================== */
+        @supports (padding: max(0px)) {
+            body {
+                padding-top: max(20px, env(safe-area-inset-top) + 10px);
+                padding-bottom: max(20px, env(safe-area-inset-bottom) + 10px);
+                padding-left: max(20px, env(safe-area-inset-left) + 10px);
+                padding-right: max(20px, env(safe-area-inset-right) + 10px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Hearts Background -->
+    <div class="floating-container" id="floatingStuff"></div>
+    
+    <!-- Main Content -->
+    <div class="love-container gentle-bounce">
+        <!-- Pulse Effect -->
+        <div class="pulse-ring"></div>
+        
+        <!-- Sparkle Container -->
+        <div class="sparkle-container" id="sparkleContainer"></div>
+        
+        <!-- Decorative Hearts -->
+        <div class="heart-decoration heart-1">💖</div>
+        <div class="heart-decoration heart-2">💕</div>
+        <div class="heart-decoration heart-3">💗</div>
+        <div class="heart-decoration heart-4">💝</div>
+        
+        <!-- Main Title -->
+        <h1 class="love-title">I Love You</h1>
+        
+        <!-- Love Message -->
+        <p class="love-message">
+            Thank you for being in my life. For the smiles, the late night talks, the support, and the love. I can't wait to see you.
+        </p>
+        
+        <!-- Signature -->
+        <div class="signature">— Forever yours ✨</div>
+    </div>
+
+    <script>
+        // Initialize floating hearts background
+        function initFloatingHearts() {
+            const container = document.getElementById("floatingStuff");
+            const hearts = ['💖', '💗', '💕', '💝', '🩷', '💞'];
+            
+            for(let i = 0; i < 30; i++) {
+                const el = document.createElement("div");
+                el.className = "float-item";
+                el.innerText = hearts[Math.floor(Math.random() * hearts.length)];
+                el.style.left = `${Math.random() * 100}%`;
+                el.style.animationDuration = `${6 + Math.random() * 4}s`;
+                el.style.fontSize = `${18 + Math.random() * 20}px`;
+                el.style.animationDelay = `${Math.random() * 5}s`;
+                container.appendChild(el);
+            }
+        }
+
+        // Create gentle sparkle effects
+        function createSparkles() {
+            const sparkleContainer = document.getElementById("sparkleContainer");
+            const sparkleSymbols = ['✨', '💫', '⭐'];
+            
+            for(let i = 0; i < 8; i++) {
+                const sparkle = document.createElement("div");
+                sparkle.className = "sparkle";
+                sparkle.innerText = sparkleSymbols[Math.floor(Math.random() * sparkleSymbols.length)];
+                
+                // Random positioning within the container
+                sparkle.style.left = `${10 + Math.random() * 80}%`;
+                sparkle.style.top = `${10 + Math.random() * 80}%`;
+                sparkle.style.animationDelay = `${Math.random() * 3}s`;
+                
+                sparkleContainer.appendChild(sparkle);
+            }
+        }
+
+        // Create gentle click sparkles
+        function createClickSparkle(x, y) {
+            const sparkle = document.createElement('div');
+            sparkle.style.position = 'fixed';
+            sparkle.style.left = x + 'px';
+            sparkle.style.top = y + 'px';
+            sparkle.style.fontSize = '20px';
+            sparkle.style.color = '#ff69b4';
+            sparkle.style.pointerEvents = 'none';
+            sparkle.style.zIndex = '1000';
+            sparkle.innerHTML = '💖';
+            sparkle.style.animation = 'clickSparkle 1.5s ease-out forwards';
+            
+            document.body.appendChild(sparkle);
+            
+            setTimeout(() => {
+                if (document.body.contains(sparkle)) {
+                    document.body.removeChild(sparkle);
+                }
+            }, 1500);
+        }
+
+        // Add click sparkle animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes clickSparkle {
+                0% { 
+                    transform: translate(-50%, -50%) scale(0) rotate(0deg); 
+                    opacity: 1; 
+                }
+                50% { 
+                    transform: translate(-50%, -50%) scale(1.2) rotate(180deg); 
+                    opacity: 1; 
+                }
+                100% { 
+                    transform: translate(-50%, -50%) scale(0) rotate(360deg); 
+                    opacity: 0; 
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Add gentle interaction effects
+        function addInteractionEffects() {
+            const loveContainer = document.querySelector('.love-container');
+            
+            // Click anywhere to create sparkles
+            document.addEventListener('click', function(e) {
+                createClickSparkle(e.clientX, e.clientY);
+            });
+
+            // Touch events for mobile
+            document.addEventListener('touchstart', function(e) {
+                if (e.touches.length === 1) {
+                    const touch = e.touches[0];
+                    createClickSparkle(touch.clientX, touch.clientY);
+                }
+            });
+
+            // Gentle hover effect for the container
+            loveContainer.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.02)';
+                this.style.boxShadow = '0 20px 60px rgba(214, 51, 132, 0.3)';
+            });
+
+            loveContainer.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+                this.style.boxShadow = '0 15px 50px rgba(214, 51, 132, 0.2)';
+            });
+        }
+
+        // Create periodic sparkle bursts
+        function createPeriodicSparkles() {
+            setInterval(() => {
+                const x = Math.random() * window.innerWidth;
+                const y = Math.random() * window.innerHeight;
+                
+                // Only create sparkles occasionally and outside the main container area
+                if (Math.random() > 0.7) {
+                    createClickSparkle(x, y);
+                }
+            }, 3000);
+        }
+
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initFloatingHearts();
+            createSparkles();
+            addInteractionEffects();
+            
+            // Delay periodic sparkles to let initial animations settle
+            setTimeout(() => {
+                createPeriodicSparkles();
+            }, 3000);
+        });
+
+        // Prevent context menu on long press for better mobile experience
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        // Optional: Add subtle sound effect on click (uncomment if desired)
+        /*
+        document.addEventListener('click', function() {
+            // You can add a gentle sound here if you have audio files
+            // const audio = new Audio('gentle-chime.mp3');
+            // audio.volume = 0.3;
+            // audio.play().catch(() => {}); // Catch any audio play errors
+        });
+        */
+    </script>
+</body>
+</html>
