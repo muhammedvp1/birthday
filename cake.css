@@ -154,10 +154,10 @@ body {
 
 /* ======================== MESSAGES ======================== */
 .tap-message {
-  position: fixed;
-  top: 50%;
+  position: absolute;
+  bottom: 330px; /* Distance from bottom, adjust as needed */
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
   font-size: 18px;
   color: #d63384;
   background: rgba(255, 255, 255, 0.7);
