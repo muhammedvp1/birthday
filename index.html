@@ -187,7 +187,7 @@
     .letter {
       position: relative;
       background-color: #fff0f5;
-      width: 80%;
+      width: 90%;
       height: 70%;
       top: 5%;
       border-radius: 10px;
@@ -256,13 +256,180 @@
       to { opacity: 1; }
     }
 
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-10px); }
+      75% { transform: translateX(10px); }
+    }
+
+    /* Navigation Heart Container */
+    .nav-heart-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 999;
+    }
+
+    /* Floating Heart Button */
+    .nav-heart {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ffb6d9, #ff69b4);
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(255, 105, 180, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      animation: pulse 2s infinite;
+    }
+
+    .nav-heart:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 30px rgba(255, 105, 180, 0.6);
+    }
+
+    .nav-heart:active {
+      transform: scale(0.95);
+    }
+
+    .heart-icon {
+      font-size: 28px;
+      animation: heartbeat 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        box-shadow: 0 4px 20px rgba(255, 105, 180, 0.4);
+      }
+      50% {
+        box-shadow: 0 4px 30px rgba(255, 105, 180, 0.7);
+      }
+      100% {
+        box-shadow: 0 4px 20px rgba(255, 105, 180, 0.4);
+      }
+    }
+
+    @keyframes heartbeat {
+      0% { transform: scale(1); }
+      14% { transform: scale(1.15); }
+      28% { transform: scale(1); }
+      42% { transform: scale(1.15); }
+      70% { transform: scale(1); }
+    }
+
+    /* Navigation Menu */
+    .nav-menu {
+      position: absolute;
+      top: 80px;
+      right: 0;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      box-shadow: 0 8px 40px rgba(214, 51, 132, 0.25);
+      padding: 20px;
+      min-width: 280px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-20px) scale(0.9);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      font-family: 'Comic Sans MS', cursive;
+    }
+
+    .nav-menu.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0) scale(1);
+    }
+
+    .menu-header {
+      font-size: 18px;
+      color: #d63384;
+      font-weight: bold;
+      margin-bottom: 15px;
+      text-align: center;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #ffb6d9;
+    }
+
+    .menu-items {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .menu-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      text-decoration: none;
+      color: #d63384;
+      border-radius: 15px;
+      transition: all 0.3s ease;
+      background: linear-gradient(135deg, transparent, transparent);
+    }
+
+    .menu-item:hover {
+      background: linear-gradient(135deg, #ffe6f0, #ffd1e3);
+      transform: translateX(5px);
+      box-shadow: 0 2px 15px rgba(255, 105, 180, 0.2);
+    }
+
+    .menu-emoji {
+      font-size: 24px;
+      margin-right: 12px;
+      display: inline-block;
+      animation: float 3s ease-in-out infinite;
+      animation-delay: calc(var(--index) * 0.1s);
+    }
+
+    .menu-text {
+      font-size: 16px;
+      flex: 1;
+    }
+
+    /* Add animation delay to each menu item */
+    .menu-item:nth-child(1) .menu-emoji { --index: 1; }
+    .menu-item:nth-child(2) .menu-emoji { --index: 2; }
+    .menu-item:nth-child(3) .menu-emoji { --index: 3; }
+    .menu-item:nth-child(4) .menu-emoji { --index: 4; }
+    .menu-item:nth-child(5) .menu-emoji { --index: 5; }
+    .menu-item:nth-child(6) .menu-emoji { --index: 6; }
+    .menu-item:nth-child(7) .menu-emoji { --index: 7; }
+    .menu-item:nth-child(8) .menu-emoji { --index: 8; }
+    .menu-item:nth-child(9) .menu-emoji { --index: 9; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+
+    /* Overlay for closing menu */
+    .nav-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      z-index: 998;
+      display: none;
+    }
+
+    .nav-overlay.show {
+      display: block;
+    }
+
+    /* Mobile Responsive */
     @media screen and (max-width: 480px) {
       .login-container {
         padding: 30px 20px;
       }
 
       .letter {
-        width: 85%;
+        width: 95%;
         height: auto;
         padding: 16px 12px;
       }
@@ -289,10 +456,96 @@
       .pocket {
         border-bottom-width: 30vw;
       }
+
+      .nav-heart-container {
+        top: 15px;
+        right: 15px;
+      }
+
+      .nav-heart {
+        width: 50px;
+        height: 50px;
+      }
+
+      .heart-icon {
+        font-size: 24px;
+      }
+
+      .nav-menu {
+        right: -10px;
+        min-width: 250px;
+        padding: 15px;
+      }
+
+      .menu-header {
+        font-size: 16px;
+      }
+
+      .menu-item {
+        padding: 10px 12px;
+      }
+
+      .menu-emoji {
+        font-size: 20px;
+        margin-right: 10px;
+      }
+
+      .menu-text {
+        font-size: 14px;
+      }
     }
   </style>
 </head>
 <body>
+  <!-- Navigation Menu -->
+  <div class="nav-heart-container">
+    <button class="nav-heart" id="navHeart" aria-label="Navigation Menu">
+      <span class="heart-icon">💖</span>
+    </button>
+    
+    <div class="nav-menu" id="navMenu">
+      <div class="menu-header">Navigate to...</div>
+      <nav class="menu-items">
+        <a href="index.html" class="menu-item">
+          <span class="menu-emoji">💌</span>
+          <span class="menu-text">Birthday Card</span>
+        </a>
+        <a href="cake.html" class="menu-item">
+          <span class="menu-emoji">🎂</span>
+          <span class="menu-text">Cake</span>
+        </a>
+        <a href="memories.html" class="menu-item">
+          <span class="menu-emoji">📖</span>
+          <span class="menu-text">Memory Book</span>
+        </a>
+        <a href="mood-cards.html" class="menu-item">
+          <span class="menu-emoji">🎴</span>
+          <span class="menu-text">Mood Cards</span>
+        </a>
+        <a href="quiz.html" class="menu-item">
+          <span class="menu-emoji">🧠</span>
+          <span class="menu-text">Quiz</span>
+        </a>
+        <a href="guess.html" class="menu-item">
+          <span class="menu-emoji">🎁</span>
+          <span class="menu-text">Guess What I Picked</span>
+        </a>
+        <a href="her.html" class="menu-item">
+          <span class="menu-emoji">💘</span>
+          <span class="menu-text">Her Page</span>
+        </a>
+        <a href="countdown.html" class="menu-item">
+          <span class="menu-emoji">⏳</span>
+          <span class="menu-text">Countdown</span>
+        </a>
+        <a href="love-you.html" class="menu-item">
+          <span class="menu-emoji">💖</span>
+          <span class="menu-text">I Love You</span>
+        </a>
+      </nav>
+    </div>
+  </div>
+
   <!-- Login Screen -->
   <div class="login-overlay" id="loginOverlay">
     <div class="login-container">
@@ -372,17 +625,6 @@
       }
     }
 
-    // Add shake animation
-    const style = document.createElement('style');
-    style.textContent = `
-      @keyframes shake {
-        0%, 100% { transform: translateX(0); }
-        25% { transform: translateX(-10px); }
-        75% { transform: translateX(10px); }
-      }
-    `;
-    document.head.appendChild(style);
-
     // Initialize floating hearts
     function initializeFloatingHearts() {
       const container = document.getElementById("floatingStuff");
@@ -430,6 +672,60 @@
           setTimeout(() => {
             nextBtn.style.display = "block";
           }, 1500);
+        }
+      });
+
+      // Navigation Menu Functionality
+      const navHeart = document.getElementById('navHeart');
+      const navMenu = document.getElementById('navMenu');
+      let isMenuOpen = false;
+
+      // Create overlay element
+      const overlay = document.createElement('div');
+      overlay.className = 'nav-overlay';
+      document.body.appendChild(overlay);
+
+      // Toggle menu function
+      function toggleMenu() {
+        isMenuOpen = !isMenuOpen;
+        
+        if (isMenuOpen) {
+          navMenu.classList.add('show');
+          overlay.classList.add('show');
+          navHeart.style.transform = 'rotate(180deg)';
+        } else {
+          navMenu.classList.remove('show');
+          overlay.classList.remove('show');
+          navHeart.style.transform = 'rotate(0deg)';
+        }
+      }
+
+      // Heart button click
+      navHeart.addEventListener('click', function(e) {
+        e.stopPropagation();
+        toggleMenu();
+      });
+
+      // Click outside to close
+      overlay.addEventListener('click', function() {
+        if (isMenuOpen) {
+          toggleMenu();
+        }
+      });
+
+      // Prevent menu clicks from closing
+      navMenu.addEventListener('click', function(e) {
+        e.stopPropagation();
+      });
+
+      // Add active page highlighting
+      const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+      const menuItems = document.querySelectorAll('.menu-item');
+      
+      menuItems.forEach(item => {
+        if (item.getAttribute('href') === currentPage) {
+          item.style.background = 'linear-gradient(135deg, #ffe6f0, #ffd1e3)';
+          item.style.fontWeight = 'bold';
         }
       });
     });
