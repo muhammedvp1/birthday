@@ -154,18 +154,10 @@ body {
 
 /* ======================== MESSAGES ======================== */
 .tap-message {
-  position: absolute;
-  bottom: 330px; /* Distance from bottom, adjust as needed */
+  position: fixed;
+  top: 100px;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 18px;
-  color: #d63384;
-  background: rgba(255, 255, 255, 0.7);
-  padding: 10px 20px;
-  border-radius: 20px;
-  box-shadow: 0 4px 12px rgba(214, 51, 132, 0.2);
-  text-align: center;
-  z-index: 10;
 }
 .tap-message.hidden {
   opacity: 0 !important;
