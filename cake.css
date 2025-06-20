@@ -154,15 +154,14 @@ body {
 
 /* ======================== MESSAGES ======================== */
 .tap-message {
-  position: fixed;
-  top: 55px;
+ position: fixed;
+  top: 60px;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) translateY(20px);
   text-align: center;
   z-index: 100;
-  animation: fadeIn 2s 6s forwards;
   opacity: 0;
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  transition: all 0.8s ease;
 }
 .tap-message.hidden {
   opacity: 0 !important;
