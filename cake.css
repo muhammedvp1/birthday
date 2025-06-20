@@ -184,7 +184,7 @@ body {
   transform: translateX(-50%) translateY(0);
 }
 .tap-message h2 {
-  font-size: 2rem;
+  font-size: 1.5rem;
   color: #d63384;
   margin-bottom: 10px;
   text-shadow: 2px 2px 4px rgba(214, 51, 132, 0.3);
