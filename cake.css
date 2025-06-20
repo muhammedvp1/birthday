@@ -156,7 +156,7 @@ body {
 .tap-message {
  position: fixed;
   top: 60px;
-  left: 70%;
+  left: 75%;
   transform: translateX(-50%);
   text-align: center;
   z-index: 100;
