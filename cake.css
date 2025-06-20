@@ -184,7 +184,7 @@ body {
   transform: translateX(-50%) translateY(0);
 }
 .tap-message h2 {
-  font-size: 1.5rem;
+  font-size: 2rem;
   color: #d63384;
   margin-bottom: 10px;
   text-shadow: 2px 2px 4px rgba(214, 51, 132, 0.3);
@@ -217,7 +217,7 @@ body {
     max-width: 350px;
     max-height: 350px;
   }
-  .tap-message h2 { font-size: 1.5rem; }
+  .tap-message h2 { font-size: 1.8rem; }
   .birthday-message h1 { font-size: 2rem; }
   .birthday-message p { font-size: 1rem; }
 }
