@@ -601,52 +601,57 @@
                 isCover: true
             },
             {
-                media: '<img src="media/first-message-crop.jpg" alt="First Message" style="width:100%; border-radius:12px;">',
+                media: "🐾",
                 caption: "First Message",
                 message: "You replied 'cute' to a story of Abu — and somehow, that tiny moment became the beginning of everything."
             },
             {
-                media: '<img src="media/IMG_3283.PNG" alt="First Message" style="width:100%; border-radius:12px;">',
+                media: "📱",
                 caption: "Our first call 💬",
                 message: "I remember how nervous I was, but your voice made everything perfect ✨"
             },
             {
-                media: '<img src="media/2E0C2D85-9F81-466F-B3E7-E5091C059464.JPG" alt="First Message" style="width:100%; border-radius:12px;">',
+                media: "💖",
                 caption: "She Said It First",
                 message: "You said 'I love you' before I could — and my heart has been yours ever since."
             },
             {
-                media: '<img src="media/21c4a400-6293-4072-b6e2-47fea12eaefe.JPG" alt="First Message" style="width:100%; border-radius:12px;">',
+                media: "❤️",
+                caption: "First 'I love you' 💕",
+                message: "The moment my heart knew it had found its home 🏠"
+            },
+            {
+                media: "🥺",
                 caption: "My Favorite Look",
                 message: "That photo of you? I've never stopped staring at it."
             },
             {
-                media: '<img src="media/IMG_3287.JPG" alt="First Message" style="width:100%; border-radius:12px;">',
+                media: "🎬",
                 caption: "First Movie Night",
                 message: "Same movie, different screens — still felt like we were sitting together."
             },
             {
-                media: '<video controls style="width:100%; border-radius:12px;"><source src="media/hervoice.MP4" type="video/mp4">Your browser does not support the video tag.</video>',
+                media: "🎶",
                 caption: "Her Voice",
                 message: "The first time you sang, it felt like the world paused for you."
             },
             {
-                media: '<video controls style="width:100%; border-radius:12px;"><source src="media/birthdaysurprise.MP4" type="video/mp4">Your browser does not support the video tag.</video>',
+                media: "🎁",
                 caption: "Birthday Surprise",
                 message: "That picture meant more to me than anything I could unwrap."
             },
             {
-                media: '<video controls style="width:100%; border-radius:12px;"><source src="media/firstgift.MP4" type="video/mp4">Your browser does not support the video tag.</video>',
+                media: "🎁",
                 caption: "First Gift",
                 message: "I wasn't sure if it was perfect — I just hoped it made you smile."
             },
             {
-                media: '<video controls style="width:100%; border-radius:12px;"><source src="media/thatdress.MP4" type="video/mp4">Your browser does not support the video tag.</video>',
+                media: "👗",
                 caption: "That Dress",
                 message: "The first time I imagined you in it… I knew it'd be perfect."
             },
             {
-                media: '<img src="media/us togethor.JPG" alt="First Message" style="width:100%; border-radius:12px;">',
+                media: "🖼️",
                 caption: "Us, Together (Kinda)",
                 message: "We made a photo of us long before real ones — and it still means so much."
             }
@@ -686,7 +691,7 @@
         }
 
         // Update page content
-         function updatePage() {
+        function updatePage() {
             const pageData = memories[currentPage];
             const page = document.getElementById('memoryPage');
             
@@ -697,7 +702,7 @@
                 page.classList.remove('cover');
             }
             
-            document.getElementById('memoryMedia').innerHTML = pageData.media;
+            document.getElementById('memoryMedia').textContent = pageData.media;
             document.getElementById('memoryCaption').textContent = pageData.caption;
             document.getElementById('memoryMessage').textContent = pageData.message;
             
@@ -717,7 +722,6 @@
                 page.style.animation = 'pageIn 0.6s ease-out';
             }, 10);
         }
-
 
         // Navigation functions
         function nextPage() {
@@ -752,6 +756,88 @@
         // Navigate to mood cards page
         function goToMoodCards() {
             window.location.href = 'mood-cards.html';
+        }
+
+        // Enlarge media function
+        function enlargeMedia() {
+            const currentMemory = memories[currentPage];
+            const modal = document.getElementById('modalOverlay');
+            const enlargedContent = document.getElementById('enlargedContent');
+            
+            // Clear previous content
+            enlargedContent.innerHTML = '';
+            
+            // Create enlarged memory container
+            const memoryContainer = document.createElement('div');
+            memoryContainer.className = 'enlarged-memory';
+            
+            // Create enlarged media
+            const mediaDiv = document.createElement('div');
+            mediaDiv.className = 'enlarged-media';
+            
+            if (currentMemory.media.includes('<img')) {
+                // If it's an image, extract and display it
+                const imgMatch = currentMemory.media.match(/src="([^"]+)"/);
+                if (imgMatch) {
+                    const img = document.createElement('img');
+                    img.src = imgMatch[1];
+                    img.style.width = '100%';
+                    img.style.height = '300px';
+                    img.style.objectFit = 'cover';
+                    img.style.borderRadius = '15px';
+                    img.alt = currentMemory.caption;
+                    mediaDiv.appendChild(img);
+                    mediaDiv.style.background = 'none';
+                    mediaDiv.style.padding = '0';
+                    mediaDiv.style.fontSize = 'initial';
+                }
+            } else if (currentMemory.media.includes('<video')) {
+                // If it's a video, extract and display it
+                const videoMatch = currentMemory.media.match(/src="([^"]+)"/);
+                if (videoMatch) {
+                    const video = document.createElement('video');
+                    video.src = videoMatch[1];
+                    video.style.width = '100%';
+                    video.style.height = '300px';
+                    video.style.objectFit = 'cover';
+                    video.style.borderRadius = '15px';
+                    video.controls = true;
+                    mediaDiv.appendChild(video);
+                    mediaDiv.style.background = 'none';
+                    mediaDiv.style.padding = '0';
+                    mediaDiv.style.fontSize = 'initial';
+                }
+            } else {
+                // If it's an emoji, display it enlarged
+                mediaDiv.textContent = currentMemory.media;
+            }
+            
+            // Create enlarged caption
+            const captionDiv = document.createElement('div');
+            captionDiv.className = 'enlarged-caption';
+            captionDiv.textContent = currentMemory.caption;
+            
+            // Create enlarged message
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'enlarged-message';
+            messageDiv.textContent = currentMemory.message;
+            
+            // Append all elements
+            memoryContainer.appendChild(mediaDiv);
+            memoryContainer.appendChild(captionDiv);
+            memoryContainer.appendChild(messageDiv);
+            enlargedContent.appendChild(memoryContainer);
+            
+            // Show modal
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
+
+        // Close modal function
+        function closeModal() {
+            const modal = document.getElementById('modalOverlay');
+            modal.classList.remove('show');
+            document.body.style.overflow = ''; // Restore scrolling
         }
 
         // Touch/swipe functionality
@@ -790,6 +876,8 @@
                 previousPage();
             } else if (e.key === 'ArrowRight') {
                 nextPage();
+            } else if (e.key === 'Escape') {
+                closeModal();
             }
         }
 
