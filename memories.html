@@ -698,30 +698,36 @@
             // Add or remove cover class
             if (pageData.isCover) {
                 page.classList.add('cover');
-            } else {
-                page.classList.remove('cover');
-            }
-            
-            document.getElementById('memoryMedia').textContent = pageData.media;
-            document.getElementById('memoryCaption').textContent = pageData.caption;
-            document.getElementById('memoryMessage').textContent = pageData.message;
-            
-            // Update navigation buttons
-            document.getElementById('prevBtn').disabled = currentPage === 0;
-            document.getElementById('nextBtn').disabled = currentPage === memories.length - 1;
-            
-            // Update page indicators
-            const dots = document.querySelectorAll('.dot');
-            dots.forEach((dot, index) => {
-                dot.classList.toggle('active', index === currentPage);
-            });
-            
-            // Add page animation
-            page.style.animation = 'none';
-            setTimeout(() => {
-                page.style.animation = 'pageIn 0.6s ease-out';
-            }, 10);
-        }
+          function updatePage() {
+    const pageData = memories[currentPage];
+    const page = document.getElementById('memoryPage');
+    
+    // Add or remove cover class
+    if (pageData.isCover) {
+        page.classList.add('cover');
+    } else {
+        page.classList.remove('cover');
+    }
+    
+    // ✅ Fix applied here:
+    document.getElementById('memoryMedia').innerHTML = pageData.media;
+    document.getElementById('memoryCaption').textContent = pageData.caption;
+    document.getElementById('memoryMessage').textContent = pageData.message;
+
+    document.getElementById('prevBtn').disabled = currentPage === 0;
+    document.getElementById('nextBtn').disabled = currentPage === memories.length - 1;
+
+    const dots = document.querySelectorAll('.dot');
+    dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentPage);
+    });
+
+    page.style.animation = 'none';
+    setTimeout(() => {
+        page.style.animation = 'pageIn 0.6s ease-out';
+    }, 10);
+}
+
 
         // Navigation functions
         function nextPage() {
