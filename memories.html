@@ -118,28 +118,32 @@
             }
         }
 
-        .memory-media {
-            width: 100%;
-            max-width: 100%;
-            height: 280px;
-            background: linear-gradient(45deg, #ffb6d9, #ffd1e3);
-            border-radius: 15px;
-            margin: 0 auto 15px auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 48px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(214, 51, 132, 0.2);
-        }
+       .memory-media {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  padding: 8px 0;
+}
 
-        .memory-media img, .memory-media video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 15px;
-        }
+/* Default max height for landscape media */
+.memory-media img,
+.memory-media video {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 12px;
+  height: auto;
+}
+
+/* Let the container auto-adjust height */
+.memory-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: auto;
+}
 
         .memory-caption {
             color: #d63384;
