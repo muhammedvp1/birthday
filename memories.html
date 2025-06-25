@@ -78,15 +78,17 @@
         }
 
         .memory-page.cover {
-            background: rgba(255, 240, 250, 0.98);
-            border: 3px solid rgba(255, 105, 180, 0.4);
-            box-shadow: 0 12px 40px rgba(214, 51, 132, 0.3);
-        }
+    background: white !important;
+    border: 3px solid rgba(255, 105, 180, 0.4);
+    box-shadow: 0 12px 40px rgba(214, 51, 132, 0.3);
+}
 
-        .cover .memory-media {
-            background: linear-gradient(135deg, #ff69b4, #ffd1e3, #ffb6d9);
-            animation: coverPulse 3s ease-in-out infinite;
-        }
+
+       /* Optional: remove pink gradient background from cover image */
+.cover .memory-media {
+    background: none !important;
+    animation: none !important;
+}
 
         @keyframes coverPulse {
             0%, 100% { transform: scale(1); }
