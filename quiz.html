@@ -497,6 +497,13 @@
             
             scoreDiv.textContent = `${score}/${questions.length}`;
             
+ // ✅ GA4 tracking
+    gtag('event', 'quiz_completed', {
+      event_category: 'quiz',
+      event_label: 'birthday_quiz',
+      value: score
+    });
+
            let message = "";
            if (score >= 9) {
            message = "You're officially the expert on me! 💍✨<br>You know me better than I know myself! 😍";
