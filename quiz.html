@@ -346,29 +346,56 @@
         const questions = [
             {
                 question: "What's my favorite color? 🌈",
-                options: ["Pink", "Purple", "Blue", "Green"],
+                options: ["Black", "Grey", "Blue", "White"],
                 correct: 0
             },
             {
                 question: "What's my dream vacation destination? ✈️",
-                options: ["Paris", "Tokyo", "Maldives", "New York"],
+                options: ["France", "Turkey", "Japan", "New York"],
                 correct: 2
             },
             {
-                question: "What's my favorite type of music? 🎵",
-                options: ["Pop", "Rock", "Classical", "Jazz"],
-                correct: 0
-            },
-            {
-                question: "What's my biggest fear? 😱",
-                options: ["Spiders", "Heights", "Dark", "Being alone"],
+                question: "What school did I study until 10th? 🏫",
+                options: ["TISK", "Latheefiya", "Chinmaya", "ISD"],
                 correct: 3
             },
             {
-                question: "What's my favorite way to spend a weekend? 💕",
-                options: ["Shopping", "Reading", "Cuddling with you", "Watching movies"],
+                question: "What's my comfort food? 🍛",
+                options: ["Dosa", "Biryani", "Muttamaala", "Mandhi"],
+                correct: 1
+            },
+            {
+                 question: "Where do I want us to travel together first? ✈️",
+                 options: ["Paris", "Kerala", "Dubai", "Umrah"],
+                 correct: 3
+            },
+            {
+                question: "What is my university name? 🎓",
+                options: ["Middlesex University", "University of Hertfordshire", "University of Westminster", "University of London"],
                 correct: 2
-            }
+            },
+            {
+                question: "What’s my shoe size? 👟",
+                options: ["8", "9", "10", "11"],
+                correct: 1
+            },
+            {
+                question: "My favourite periods in school? 🕘",
+                options: ["Lunch break & PT.", "English & History", "Computer & Math", "Science & P.E."],
+                correct: 0
+            },
+            {
+                 question: "What’s my favorite nickname for you? 💖",
+                 options: ["Jaan", "Fifi", "Thottavaadi", "Cutie"],
+                 correct: 2
+            },
+
+            {
+                question: "What do I admire most about you? 🌟",
+                options: ["Your smile", "Your eyes", "Your mind", "Your voice"],
+                correct: 0
+            },
+
         ];
 
         let currentQuestion = 0;
@@ -461,16 +488,17 @@
             
             scoreDiv.textContent = `${score}/${questions.length}`;
             
-            let message = "";
-            if (score === 5) {
-                message = "You're officially the expert on me! 💍✨<br>You know me better than I know myself! 😍";
-            } else if (score === 4) {
-                message = "Aww you were so close! 💕<br>Just one more and you'd be perfect! 😘";
-            } else if (score === 3) {
-                message = "Not bad, my love! 💖<br>You're getting to know the real me! 🥰";
-            } else {
-                message = "It's okay, you're still the cutest human I know! 😘<br>We have more time to learn about each other! 💕";
-            }
+           let message = "";
+           if (score >= 9) {
+           message = "You're officially the expert on me! 💍✨<br>You know me better than I know myself! 😍";
+           } else if (score >= 7) {
+           message = "Aww you did amazing! 💕<br>You know so much about me! 😘";
+           } else if (score >= 5) {
+           message = "Not bad, my love! 💖<br>You're getting to know the real me! 🥰";
+           } else {
+           message = "It’s okay, you’re still my favourite human ever! 😘<br>More memories to make and share! 💕";
+        }
+
             
             messageDiv.innerHTML = message;
             resultsDiv.classList.add('show');
