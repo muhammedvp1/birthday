@@ -220,12 +220,13 @@
       margin-right: auto;
       z-index: 1;
       transform: translateY(0);
-      transition: transform 0.4s ease, z-index 0.4s ease;
+      transition: transform 0.4s ease, z-index 0.4s ease, height 0.3s ease;
       padding: 20px 10px;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: flex-start;
       align-items: center;
+      overflow: hidden;
     }
 
     .letter-content {
@@ -233,10 +234,11 @@
       color: #d63384;
       text-align: center;
       line-height: 1.6;
-      min-height: 200px;
+      width: 100%;
+      flex-grow: 1;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: flex-start;
     }
 
     .letter-content p {
@@ -484,9 +486,16 @@
         padding: 30px 20px;
       }
 
+      .envelope-wrapper {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+      }
+
       #envelope {
         width: 260px;
         height: 160px;
+        margin: 0 auto;
       }
 
       .flap {
@@ -504,10 +513,11 @@
       }
 
       .letter {
-        width: 90%;
-        height: 75%;
-        padding: 15px;
-        max-height: none;
+        width: 92%;
+        height: auto;
+        min-height: 120px;
+        max-height: 70%;
+        padding: 12px;
         overflow-y: auto;
       }
 
@@ -515,17 +525,19 @@
         transform: translateY(-100px);
         z-index: 6;
         position: absolute;
-        left: 50%;
-        margin-left: -45%;
+        left: 4%;
+        right: 4%;
+        width: 92%;
+        height: auto;
+        max-height: 50vh;
       }
 
       .letter-content {
-        font-size: 14px;
-        min-height: auto;
+        font-size: 13px;
       }
 
       .letter-content p {
-        margin: 6px 0;
+        margin: 5px 0;
       }
 
       #nextBtn {
@@ -837,13 +849,22 @@
     // Type letter content
     function startTypingAnimation() {
       const letterContent = document.getElementById('letterContent');
+      const letter = document.querySelector('.letter');
       letterContent.innerHTML = '';
       let lineIndex = 0;
+
+      // Check if mobile
+      const isMobile = window.innerWidth <= 480;
 
       function typeLine() {
         if (lineIndex < letterMessage.length) {
           const p = document.createElement('p');
           letterContent.appendChild(p);
+          
+          // Auto-expand letter on mobile
+          if (isMobile && letter.classList.contains('open')) {
+            letter.style.height = 'auto';
+          }
           
           if (letterMessage[lineIndex] === '') {
             p.innerHTML = '&nbsp;';
