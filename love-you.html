@@ -293,7 +293,25 @@
                 opacity: 0;
             }
         }
+.countdown-button-wrapper {
+  text-align: center;
+  margin-top: 30px;
+}
 
+.countdown-button {
+  background-color: #ff9aa2;
+  color: white;
+  padding: 12px 24px;
+  font-size: 16px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.countdown-button:hover {
+  background-color: #ff758c;
+}
         /* ======================== RESPONSIVE ======================== */
         @media screen and (max-width: 768px) {
             .love-container {
@@ -420,6 +438,11 @@
         <!-- Signature -->
         <div class="signature">— Forever yours ✨</div>
     </div>
+
+<div class="countdown-button-wrapper">
+  <button class="countdown-button" onclick="goToCountdown()">See the countdown ⏳</button>
+</div>
+
 
     <script>
         // Initialize floating hearts background
@@ -568,6 +591,13 @@
             // audio.play().catch(() => {}); // Catch any audio play errors
         });
         */
+
+<script>
+  function goToCountdown() {
+    window.location.href = 'countdown.html';
+  }
+</script>
+
     </script>
 </body>
 </html>
