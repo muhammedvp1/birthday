@@ -18,10 +18,6 @@
   </head>
   <body>
     <div class="floating-container" id="floatingStuff"></div>
-
-<div class="tap-message" id="tapMessage">
-      <h2>💫 Tap the candle! 💫</h2>
-    </div>
     
     <div class="birthday-message" id="birthdayMessage">
       <h1>Happy Birthday My Afeee! 🎉</h1>
@@ -59,29 +55,29 @@
       // Candle blow functionality
       let candleBlown = false;
       const tapMessage = document.getElementById('tapMessage');
-      const birthdayMessage = document.getElementById('birthdayMessage');
-      
-      document.querySelector('.candle').addEventListener('click', function() {
-        if (!candleBlown) {
-          candleBlown = true;
-          this.classList.add('blown');
-          
-          // Hide tap message immediately and smoothly
-          tapMessage.classList.add('hidden');
-          
-          // Show birthday message after tap message fades
-          setTimeout(() => {
-  birthdayMessage.classList.add('show');
-  document.getElementById('memoriesBtn').style.display = 'block';
-}, 600);
+const birthdayMessage = document.getElementById('birthdayMessage');
 
-          
-          // Create confetti after flame goes out
-          setTimeout(() => {
-            createConfetti();
-          }, 300);
-        }
-      });
+document.querySelector('.candle').addEventListener('click', function () {
+  if (!candleBlown) {
+    candleBlown = true;
+    this.classList.add('blown');
+
+    // ✅ Optional tap message fade — now safe
+    if (tapMessage) tapMessage.classList.add('hidden');
+
+    // Show birthday message and button
+    setTimeout(() => {
+      birthdayMessage.classList.add('show');
+      document.getElementById('memoriesBtn').style.display = 'block';
+    }, 600);
+
+    // Confetti
+    setTimeout(() => {
+      createConfetti();
+    }, 300);
+  }
+});
+
 
       function createConfetti() {
         const confettiContainer = document.createElement('div');
