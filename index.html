@@ -486,16 +486,19 @@
         padding: 30px 20px;
       }
 
+      /* Fix: Center the envelope wrapper on mobile */
       .envelope-wrapper {
         width: 100%;
         display: flex;
         justify-content: center;
+        align-items: center;
       }
 
       #envelope {
         width: 260px;
         height: 160px;
         margin: 0 auto;
+        transform: translateX(0); /* Reset any transform */
       }
 
       .flap {
@@ -512,32 +515,36 @@
         border-top-width: 80px;
       }
 
+      /* Bigger letter size on mobile */
       .letter {
         width: 92%;
         height: auto;
-        min-height: 120px;
-        max-height: 70%;
-        padding: 12px;
+        min-height: 150px;
+        max-height: 75%;
+        padding: 15px;
         overflow-y: auto;
       }
 
       .open .letter {
-        transform: translateY(-100px);
+        transform: translateY(-110px);
         z-index: 6;
         position: absolute;
-        left: 4%;
-        right: 4%;
-        width: 92%;
+        left: 50%;
+        transform: translateX(-50%) translateY(-110px); /* Center the letter */
+        width: 85%;
         height: auto;
-        max-height: 50vh;
+        max-height: 60vh;
+        overflow-y: auto;
       }
 
+      /* Bigger font size for letter content on mobile */
       .letter-content {
-        font-size: 13px;
+        font-size: 16px; /* Increased from 13px */
+        line-height: 1.8; /* Better spacing */
       }
 
       .letter-content p {
-        margin: 5px 0;
+        margin: 8px 0;
       }
 
       #nextBtn {
@@ -545,32 +552,6 @@
         padding: 12px 24px;
         font-size: 0.9rem;
         z-index: 5;
-      }
-
-      .flap, .pocket {
-        border-left-width: 45vw;
-        border-right-width: 45vw;
-      }
-
-      .flap {
-        border-top-width: 35vw;
-      }
-
-      .pocket {
-        border-bottom-width: 30vw;
-      }
-
-      .flap, .pocket {
-        border-left-width: 45vw;
-        border-right-width: 45vw;
-      }
-
-      .flap {
-        border-top-width: 35vw;
-      }
-
-      .pocket {
-        border-bottom-width: 30vw;
       }
 
       .nav-heart-container {
@@ -612,6 +593,24 @@
 
       .float-text {
         font-size: 16px;
+      }
+    }
+
+    /* Tablet responsive adjustments */
+    @media screen and (min-width: 481px) and (max-width: 768px) {
+      .envelope-wrapper {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+      }
+
+      .letter-content {
+        font-size: 18px;
+      }
+
+      .open .letter {
+        max-height: 70vh;
+        overflow-y: auto;
       }
     }
   </style>
