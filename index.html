@@ -170,6 +170,7 @@
       background-color: #ffafcc;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
       cursor: pointer;
+      overflow: visible;
     }
 
     #envelope.jiggle {
@@ -257,6 +258,7 @@
     .open .letter {
       transform: translateY(-120px);
       z-index: 6;
+      position: absolute;
     }
 
     .hearts .heart {
@@ -483,14 +485,26 @@
       }
 
       .letter {
-        width: 95%;
+        width: 85%;
         height: auto;
         padding: 16px 12px;
+        max-height: 60vh;
+        overflow-y: auto;
+      }
+
+      .open .letter {
+        transform: translateY(-80px) scale(0.85);
+        z-index: 6;
+        position: absolute;
       }
 
       .letter-content {
-        font-size: 14px;
+        font-size: 13px;
         min-height: 150px;
+      }
+
+      .letter-content p {
+        margin: 8px 0;
       }
 
       #envelope {
@@ -687,6 +701,8 @@
         // Initialize floating hearts and text after unlock
         setTimeout(() => {
           initializeFloatingElements();
+          // Show next button immediately after unlock
+          document.getElementById('nextBtn').style.display = 'block';
           // Start jiggle timer
           jiggleTimeout = setTimeout(() => {
             if (!envelopeClicked) {
@@ -845,7 +861,7 @@
 
         // Create emoji burst and start typing animation
         if (envelope.classList.contains("open")) {
-          createEmojiBurst();
+          // Removed createEmojiBurst() call - no more burst animation
           setTimeout(startTypingAnimation, 500);
         }
       });
