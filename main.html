@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Afeee's Birthday</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Comic Sans MS', cursive;
+      background: linear-gradient(135deg, #ffe6f0, #ffd1e3);
+    }
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    .nav-bar {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+      display: flex;
+      gap: 10px;
+    }
+    .nav-bar button {
+      background: #ff69b4;
+      border: none;
+      border-radius: 20px;
+      padding: 10px 20px;
+      color: white;
+      font-weight: bold;
+      font-size: 14px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      transition: all 0.2s ease;
+    }
+    .nav-bar button:hover {
+      transform: translateY(-2px);
+      background: #ff1493;
+    }
+    audio {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background music plays once and stays -->
+  <audio id="bgMusic" src="Audio/bg.mp3" autoplay loop></audio>
+
+  <!-- Page loader -->
+  <iframe id="pageFrame" src="index-7.html"></iframe>
+
+  <!-- Navigation buttons -->
+  <div class="nav-bar">
+    <button onclick="navigate('index-7.html')">Letter</button>
+    <button onclick="navigate('cake-3.html')">Cake</button>
+    <button onclick="navigate('countdown-3.html')">Countdown</button>
+    <button onclick="navigate('her-3.html')">Her Page</button>
+    <button onclick="navigate('love-you-4.html')">Love You</button>
+    <button onclick="navigate('memories-4.html')">Memories</button>
+    <button onclick="navigate('memory-transition.html')">Transition</button>
+    <button onclick="navigate('mood-cards.html')">Mood</button>
+  </div>
+
+  <script>
+    function navigate(page) {
+      document.getElementById('pageFrame').src = page;
+    }
+  </script>
+</body>
+</html>
