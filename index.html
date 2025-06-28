@@ -597,22 +597,86 @@
     }
 
     /* Tablet responsive adjustments */
-    @media screen and (min-width: 481px) and (max-width: 768px) {
-      .envelope-wrapper {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-      }
+    @media screen and (max-width: 480px) {
+  .envelope-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+  }
 
-      .letter-content {
-        font-size: 18px;
-      }
+  #envelope {
+    width: 90vw;
+    height: auto;
+    margin: 0 auto;
+    transform: none;
+  }
 
-      .open .letter {
-        max-height: 70vh;
-        overflow-y: auto;
-      }
-    }
+  .flap {
+    border-top-width: 40vw;
+    border-left-width: 45vw;
+    border-right-width: 45vw;
+    border-bottom-width: 15vw;
+  }
+
+  .pocket {
+    border-left-width: 45vw;
+    border-right-width: 45vw;
+    border-bottom-width: 40vw;
+    border-top-width: 20vw;
+  }
+
+  .letter {
+    width: 88vw;
+    padding: 16px;
+    max-height: 60vh;
+    font-size: 14px;
+    overflow-y: auto;
+    position: relative;
+  }
+
+  .open .letter {
+    transform: translateY(-100px);
+    left: 50%;
+    transform: translateX(-50%) translateY(-100px);
+    width: 88vw;
+    max-height: 65vh;
+  }
+
+  .letter-content {
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .letter-content p {
+    margin: 8px 0;
+  }
+
+  #nextBtn {
+    bottom: 16px;
+    font-size: 0.9rem;
+    padding: 12px 20px;
+  }
+
+  .nav-heart-container {
+    top: 15px;
+    right: 15px;
+  }
+
+  .nav-heart {
+    width: 50px;
+    height: 50px;
+  }
+
+  .heart-icon {
+    font-size: 24px;
+  }
+
+  .float-text {
+    font-size: 16px;
+  }
+}
   </style>
 </head>
 <body>
