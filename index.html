@@ -226,6 +226,7 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      box-sizing: border-box;
     }
 
     .letter-content {
@@ -484,16 +485,39 @@
         padding: 30px 20px;
       }
 
+      #envelope {
+        width: 260px;
+        height: 160px;
+        margin: 0 auto;
+      }
+
+      .flap {
+        border-top-width: 88px;
+        border-left-width: 130px;
+        border-right-width: 130px;
+        border-bottom-width: 72px;
+      }
+
+      .pocket {
+        border-left-width: 130px;
+        border-right-width: 130px;
+        border-bottom-width: 80px;
+        border-top-width: 80px;
+      }
+
       .letter {
-        width: 85%;
-        height: auto;
-        padding: 16px 12px;
+        width: 92%;
+        height: 85%;
+        padding: 15px;
         max-height: 60vh;
         overflow-y: auto;
+        left: 50%;
+        transform: translateX(-50%);
+        margin-bottom: 80px;
       }
 
       .open .letter {
-        transform: translateY(-80px) scale(0.85);
+        transform: translateX(-50%) translateY(-90px);
         z-index: 6;
         position: absolute;
       }
@@ -501,15 +525,11 @@
       .letter-content {
         font-size: 13px;
         min-height: 150px;
+        padding-bottom: 30px;
       }
 
       .letter-content p {
         margin: 8px 0;
-      }
-
-      #envelope {
-        width: 90vw;
-        height: auto;
       }
 
       .flap, .pocket {
@@ -523,6 +543,16 @@
 
       .pocket {
         border-bottom-width: 30vw;
+      }
+
+      #nextBtn {
+        bottom: 20px;
+        font-size: 0.9rem;
+        padding: 12px 20px;
+      }
+
+      .envelope-wrapper {
+        margin-bottom: 100px;
       }
 
       .nav-heart-container {
@@ -820,10 +850,7 @@
             });
           }
         } else {
-          // Show next button after typing completes
-          setTimeout(() => {
-            document.getElementById('nextBtn').style.display = 'block';
-          }, 500);
+          // Next button already shown after unlock, no need to show again
         }
       }
 
