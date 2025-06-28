@@ -209,25 +209,26 @@
     }
 
     .letter {
-      position: relative;
-      background-color: #fff0f5;
-      width: 90%;
-      height: 70%;
-      top: 5%;
-      border-radius: 10px;
-      box-shadow: 0 2px 26px rgba(0, 0, 0, .12);
-      margin-left: auto;
-      margin-right: auto;
-      z-index: 1;
-      transform: translateY(0);
-      transition: transform 0.4s ease, z-index 0.4s ease, height 0.3s ease;
-      padding: 20px 10px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      align-items: center;
-      overflow: hidden;
-    }
+  position: relative;
+  background-color: #fff0f5;
+  width: 90%;
+  height: 70%;
+  top: 5%;
+  border-radius: 10px;
+  box-shadow: 0 2px 26px rgba(0, 0, 0, .12);
+  margin-left: auto;
+  margin-right: auto;
+  z-index: 1;
+  transform: translateY(0);
+  transition: transform 0.4s ease, opacity 0.4s ease, z-index 0.4s ease;
+  padding: 20px 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  overflow: hidden;
+  opacity: 0; /* 🔥 This is the key line */
+}
 
     .letter-content {
       font-size: 16px;
@@ -258,12 +259,13 @@
       transition: transform 0.4s ease;
       z-index: 5;
     }
-
-    .open .letter {
-      transform: translateY(-120px);
-      z-index: 6;
-      position: absolute;
-    }
+.open .letter {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-100px);
+  z-index: 6;
+  position: absolute;
+  left: 50%;
+}
 
     .hearts .heart {
       display: none;
