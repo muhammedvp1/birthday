@@ -293,24 +293,53 @@
                 opacity: 0;
             }
         }
-.countdown-button {
-  margin-top: 30px;
-  background-color: #ff4f91;
-  color: white;
-  padding: 14px 28px;
-  font-size: 1rem;
-  font-weight: bold;
-  border: none;
-  border-radius: 999px;
-  box-shadow: 0 6px 12px rgba(255, 105, 180, 0.2);
-  cursor: pointer;
-  transition: transform 0.2s, background-color 0.3s;
-}
 
-.countdown-button:hover {
-  background-color: #ff3377;
-  transform: translateY(-2px);
-}
+        /* ======================== MAGIC BUTTON (MATCHING HER PAGE) ======================== */
+        .magic-button-container {
+            text-align: center;
+            margin: 30px 0 0 0;
+        }
+
+        .magic-button {
+            background: linear-gradient(135deg, #ff69b4, #d63384);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Comic Sans MS', cursive;
+            box-shadow: 0 8px 30px rgba(255, 105, 180, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            font-weight: bold;
+            z-index: 3;
+        }
+
+        .magic-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .magic-button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .magic-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(255, 105, 180, 0.5);
+        }
+
         /* ======================== RESPONSIVE ======================== */
         @media screen and (max-width: 768px) {
             .love-container {
@@ -333,6 +362,11 @@
             
             .heart-decoration {
                 font-size: 1.5rem;
+            }
+
+            .magic-button {
+                font-size: 1.1rem;
+                padding: 15px 30px;
             }
         }
 
@@ -364,6 +398,11 @@
             .heart-decoration {
                 font-size: 1.2rem;
             }
+
+            .magic-button {
+                font-size: 1rem;
+                padding: 14px 25px;
+            }
         }
 
         @media screen and (max-width: 360px) {
@@ -382,6 +421,11 @@
             
             .signature {
                 font-size: 1.2rem;
+            }
+
+            .magic-button {
+                font-size: 0.95rem;
+                padding: 12px 22px;
             }
         }
 
@@ -430,13 +474,19 @@
         <!-- Love Message -->
         <p class="love-message">
     Thank you for being in my life — for the smiles, the late night talks, the support, and the love.<br>
-    I know things have felt a little distant lately, but my feelings haven’t changed.<br>
-    I still think about you in all the small ways — and I can’t wait for the day we finally meet.
+    I know things have felt a little distant lately, but my feelings haven't changed.<br>
+    I still think about you in all the small ways — and I can't wait for the day we finally meet.
 </p>
         
         <!-- Signature -->
         <div class="signature">— Forever yours ✨</div>
-<button class="countdown-button" onclick="goToCountdown()">⏳ See the Countdown</button>
+
+        <!-- Magic Button -->
+        <div class="magic-button-container">
+            <button class="magic-button" onclick="goToCountdown()">
+                ⏳ See the Countdown
+            </button>
+        </div>
     </div>
 
     <script>
@@ -560,6 +610,11 @@
             }, 3000);
         }
 
+        // Navigate to countdown page
+        function goToCountdown() {
+            window.location.href = 'countdown.html';
+        }
+
         // Initialize everything when page loads
         document.addEventListener('DOMContentLoaded', function() {
             initFloatingHearts();
@@ -586,13 +641,6 @@
             // audio.play().catch(() => {}); // Catch any audio play errors
         });
         */
-
-<script>
-  function goToCountdown() {
-    window.location.href = 'countdown.html';
-  }
-</script>
-
     </script>
 </body>
 </html>
