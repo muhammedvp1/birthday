@@ -226,7 +226,6 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      box-sizing: border-box;
     }
 
     .letter-content {
@@ -488,7 +487,6 @@
       #envelope {
         width: 260px;
         height: 160px;
-        margin: 0 auto;
       }
 
       .flap {
@@ -506,30 +504,35 @@
       }
 
       .letter {
-        width: 92%;
-        height: 85%;
+        width: 90%;
+        height: 75%;
         padding: 15px;
-        max-height: 60vh;
+        max-height: none;
         overflow-y: auto;
-        left: 50%;
-        transform: translateX(-50%);
-        margin-bottom: 80px;
       }
 
       .open .letter {
-        transform: translateX(-50%) translateY(-90px);
+        transform: translateY(-100px);
         z-index: 6;
         position: absolute;
+        left: 50%;
+        margin-left: -45%;
       }
 
       .letter-content {
-        font-size: 13px;
-        min-height: 150px;
-        padding-bottom: 30px;
+        font-size: 14px;
+        min-height: auto;
       }
 
       .letter-content p {
-        margin: 8px 0;
+        margin: 6px 0;
+      }
+
+      #nextBtn {
+        bottom: 20px;
+        padding: 12px 24px;
+        font-size: 0.9rem;
+        z-index: 5;
       }
 
       .flap, .pocket {
@@ -545,14 +548,17 @@
         border-bottom-width: 30vw;
       }
 
-      #nextBtn {
-        bottom: 20px;
-        font-size: 0.9rem;
-        padding: 12px 20px;
+      .flap, .pocket {
+        border-left-width: 45vw;
+        border-right-width: 45vw;
       }
 
-      .envelope-wrapper {
-        margin-bottom: 100px;
+      .flap {
+        border-top-width: 35vw;
+      }
+
+      .pocket {
+        border-bottom-width: 30vw;
       }
 
       .nav-heart-container {
